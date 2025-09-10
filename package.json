@@ -6,7 +6,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/silinternational/idp-profile-ui"
+    "url": "https://github.com/sil-org/idp-profile-ui"
   },
   "scripts": {
     "serve": "vite",

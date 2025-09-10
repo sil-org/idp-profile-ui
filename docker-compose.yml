@@ -91,7 +91,7 @@ services:
       - '3000'
 
   proxy:
-    # https://github.com/silinternational/traefik-https-proxy
+    # https://github.com/sil-org/traefik-https-proxy
     image: silintl/traefik-https-proxy:1
     platform: linux/amd64
     ports:

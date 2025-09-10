@@ -12,7 +12,7 @@ Project is managed with [vitejs](https://vitejs.dev/).
 
 ## Environment
 
-This app is setup to run against HTTPS for WebAuthn testing. In order to facilitate this _traefik_ must be configured. Some values are located in the `.env.local` and some are located in the `docker-compose.yml` under the `proxy` service. See [traefik docs](https://github.com/silinternational/traefik-https-proxy) for more information.
+This app is setup to run against HTTPS for WebAuthn testing. In order to facilitate this _traefik_ must be configured. Some values are located in the `.env.local` and some are located in the `docker-compose.yml` under the `proxy` service. See [traefik docs](https://github.com/sil-org/traefik-https-proxy) for more information.
 
 1. Copy `.env.dist` to `.env.local`
 2. Edit `.env.local`:
