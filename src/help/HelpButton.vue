@@ -23,12 +23,6 @@
             {{ $idpConfig.support.url }}
           </a>
         </p>
-        <p v-if="$idpConfig.support?.feedbackUrl">
-          {{ $t('help.feedback') }}
-          <a :href="$idpConfig.support?.feedbackUrl" target="_blank" class="text-subtitle-1">
-            {{ $idpConfig.support?.feedbackUrl }}
-          </a>
-        </p>
       </v-card-text>
 
       <v-divider></v-divider>

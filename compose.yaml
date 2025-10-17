@@ -44,7 +44,6 @@ services:
       SUPPORT_PHONE: '007-867-5309'
       SUPPORT_EMAIL: 'support@example.org'
       SUPPORT_URL: 'https://www.example.org/support'
-      SUPPORT_FEEDBACK: 'https://www.example.org/support-feedback'
       UI_URL: 'https://profile.gtis.guru/#'
       UI_CORS_ORIGIN: 'https://profile.gtis.guru'
       ACCESS_TOKEN_HASH_KEY: 'KEY4TESTING'
