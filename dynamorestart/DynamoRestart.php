@@ -5,6 +5,7 @@ use Aws\DynamoDb\DynamoDbClient as DynamoDbClient;
 
 const ApiKeyTable = "ApiKey";
 const ApiKeyValue = "10345678-1234-1234-1234-123456789012";
+const TotpTable = "Totp";
 const WebauthnTable = "WebAuthn";
 
 
@@ -26,7 +27,7 @@ class DynamoRestart
     public function createTables()
     {
 
-        $tables = [WebauthnTable => "uuid", ApiKeyTable => "value"];
+        $tables = [WebauthnTable => "uuid", TotpTable => "uuid", ApiKeyTable => "value"];
 
         print_r(PHP_EOL . "Deleting old dynamodb tables." . PHP_EOL);
         foreach ($tables as $table => $type) {
@@ -43,6 +44,13 @@ class DynamoRestart
 
         $this->client->createTable([
             'TableName' => WebauthnTable,
+            'KeySchema' => [['AttributeName' => 'uuid', 'KeyType' => 'HASH']],
+            'AttributeDefinitions' => [['AttributeName' => 'uuid', 'AttributeType' => 'S']],
+            'ProvisionedThroughput' => ['ReadCapacityUnits' => 10, 'WriteCapacityUnits' => 10],
+        ]);
+
+        $this->client->createTable([
+            'TableName' => TotpTable,
             'KeySchema' => [['AttributeName' => 'uuid', 'KeyType' => 'HASH']],
             'AttributeDefinitions' => [['AttributeName' => 'uuid', 'AttributeType' => 'S']],
             'ProvisionedThroughput' => ['ReadCapacityUnits' => 10, 'WriteCapacityUnits' => 10],

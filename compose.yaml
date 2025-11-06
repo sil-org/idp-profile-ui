@@ -143,9 +143,12 @@ services:
       HELP_CENTER_URL: 'https://example.org/help'
       PASSWORD_FORGOT_URL: 'https://example.org/forgot'
       PASSWORD_PROFILE_URL: 'https://example.org/profile'
-      MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
 
-      # These are tied to similar values in dynamorestart/DynamoRestart.php
+      # The API key and secret are defined in dynamorestart/DynamoRestart.php
+      MFA_TOTP_apiBaseUrl: mfaapi:8080/
+      MFA_TOTP_apiKey: 10345678-1234-1234-1234-123456789012
+      MFA_TOTP_apiSecret: 11345678-1234-1234-1234-12345678
+      MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
       MFA_WEBAUTHN_apiKey: 10345678-1234-1234-1234-123456789012
       MFA_WEBAUTHN_apiSecret: 11345678-1234-1234-1234-12345678
       MFA_WEBAUTHN_appId: https://profile.gtis.guru/
@@ -264,12 +267,13 @@ services:
     volumes:
       - ./serverless-mfa-api/override:/src/override
     environment:
-      AWS_ENDPOINT: dynamo:8000
+      AWS_ENDPOINT: http://dynamo:8000
       AWS_DEFAULT_REGION: us-east-1
       AWS_ACCESS_KEY_ID: abc123
       AWS_SECRET_ACCESS_KEY: abc123
       AWS_DISABLE_SSL: 'true'
       API_KEY_TABLE: ApiKey
+      TOTP_TABLE: Totp
       WEBAUTHN_TABLE: WebAuthn
     depends_on:
       - dynamo
