@@ -144,8 +144,6 @@ services:
       MFA_API_KEY: 10345678-1234-1234-1234-123456789012
       MFA_API_SECRET: 11345678-1234-1234-1234-12345678
       MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
-      MFA_WEBAUTHN_apiKey: 10345678-1234-1234-1234-123456789012
-      MFA_WEBAUTHN_apiSecret: 11345678-1234-1234-1234-12345678
       MFA_WEBAUTHN_rpId: gtis.guru
     command: ['bash', '-c', 'whenavail brokerDb 3306 60 ./yii migrate --interactive=0 && ./run.sh']
 
