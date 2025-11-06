@@ -17,7 +17,7 @@ services:
       - api
 
   api:
-    image: silintl/idp-pw-api:7
+    image: ghcr.io/sil-org/idp-pw-api:8
     platform: linux/amd64
     ports:
       - '8080:80'
@@ -35,9 +35,6 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
       EMAILER_CLASS: \tests\mock\emailer\FakeEmailer
-      EMAIL_SERVICE_baseUrl: 'dummy'
-      EMAIL_SERVICE_accessToken: 'dummy'
-      EMAIL_SERVICE_assertValidIp: 'false'
       ALERTS_EMAIL_ENABLED: 'false'
       HELP_CENTER_URL: 'https://example.org/help-center'
       FROM_NAME: 'Tech support'
@@ -60,7 +57,6 @@ services:
       PASSWORD_RULE_minLength: '10'
       PASSWORD_RULE_maxLength: '255'
       PASSWORD_RULE_minScore: '3'
-    command: ['bash', '-c', 'whenavail profileDb 3306 60 ./yii migrate --interactive=0 && ./run.sh']
 
   profileDb:
     image: mariadb:10
@@ -91,7 +87,7 @@ services:
 
   proxy:
     # https://github.com/sil-org/traefik-https-proxy
-    image: silintl/traefik-https-proxy:1
+    image: ghcr.io/sil-org/traefik-https-proxy:1
     platform: linux/amd64
     ports:
       - '80:80'
@@ -116,10 +112,10 @@ services:
       BACKEND3_URL: 'http://idp:80'
 
   broker:
-    image: silintl/idp-id-broker:6
+    image: ghcr.io/sil-org/idp-id-broker:8
     platform: linux/amd64
     volumes:
-      - ./development/m991231_235959_insert_test_users.php:/data/console/migrations/m991231_235959_insert_test_users.php
+      - ./development/m991231_235959_insert_test_users.php:/app/console/migrations/m991231_235959_insert_test_users.php
     ports:
       - '8090:80'
     depends_on:
@@ -134,27 +130,23 @@ services:
       MYSQL_DATABASE: 'broker'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+      FROM_EMAIL: 'mail@example.com'
       EMAILER_CLASS: Sil\SilIdBroker\Behat\Context\fakes\FakeEmailer
-      EMAIL_SERVICE_baseUrl: 'dummy'
-      EMAIL_SERVICE_accessToken: 'dummy'
-      EMAIL_SERVICE_assertValidIp: 'false'
       EMAIL_SIGNATURE: 'one red pill, please'
       SUPPORT_EMAIL: 'support@example.org'
       HELP_CENTER_URL: 'https://example.org/help'
-      PASSWORD_FORGOT_URL: 'https://example.org/forgot'
-      PASSWORD_PROFILE_URL: 'https://example.org/profile'
+      PASSWORD_FORGOT_URL: 'https://profile.gtis.guru/forgot'
+      PASSWORD_PROFILE_URL: 'https://profile.gtis.guru/'
+      IDP_DISPLAY_NAME: 'Local Development IDP'
 
       # The API key and secret are defined in dynamorestart/DynamoRestart.php
       MFA_TOTP_apiBaseUrl: mfaapi:8080/
-      MFA_TOTP_apiKey: 10345678-1234-1234-1234-123456789012
-      MFA_TOTP_apiSecret: 11345678-1234-1234-1234-12345678
+      MFA_API_KEY: 10345678-1234-1234-1234-123456789012
+      MFA_API_SECRET: 11345678-1234-1234-1234-12345678
       MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
       MFA_WEBAUTHN_apiKey: 10345678-1234-1234-1234-123456789012
       MFA_WEBAUTHN_apiSecret: 11345678-1234-1234-1234-12345678
-      MFA_WEBAUTHN_appId: https://profile.gtis.guru/
-      MFA_WEBAUTHN_rpDisplayName: 'Local Development IDP'
       MFA_WEBAUTHN_rpId: gtis.guru
-
     command: ['bash', '-c', 'whenavail brokerDb 3306 60 ./yii migrate --interactive=0 && ./run.sh']
 
   brokerDb:
@@ -179,7 +171,7 @@ services:
       PMA_PASSWORD: 'pass'
 
   idp:
-    image: silintl/ssp-base:10.1
+    image: ghcr.io/sil-org/ssp-base:10.1
     platform: linux/amd64
     volumes:
       - ./development/authsources.php:/data/vendor/simplesamlphp/simplesamlphp/config/authsources.php
