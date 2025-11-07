@@ -51,7 +51,7 @@ See notes in Environment section regarding HTTPS and _traefik_ configuration.
 
 ## Local development
 
-When the `make` is run, the project will be in development mode and any updates made to the code will automatically be reloaded.
+When `make` is run, the project will be in development mode and any updates made to the code will automatically be reloaded.
 
 ### Updating dependencies
 
