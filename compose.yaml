@@ -176,7 +176,7 @@ services:
       - ./development/saml20-idp-hosted.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-hosted.php
       - ./development/saml20-sp-remote.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-sp-remote.php
       # - ./development/php-debugging.ini:/etc/php/7.0/apache2/php.ini
-      - ./development/default-logo.png:/data/vendor/simplesamlphp/simplesamlphp/www/logo.png
+      - ./development/default-logo.png:/data/vendor/simplesamlphp/simplesamlphp/public/logo.png
     ports:
       - '8088:80'
     depends_on:
