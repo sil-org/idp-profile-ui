@@ -169,10 +169,9 @@ services:
       PMA_PASSWORD: 'pass'
 
   idp:
-    image: ghcr.io/sil-org/ssp-base:10.1
+    image: ghcr.io/sil-org/ssp-base:11
     platform: linux/amd64
     volumes:
-      - ./development/authsources.php:/data/vendor/simplesamlphp/simplesamlphp/config/authsources.php
       - ./development/saml20-idp-hosted.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-hosted.php
       - ./development/saml20-sp-remote.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-sp-remote.php
       # - ./development/php-debugging.ini:/etc/php/7.0/apache2/php.ini
@@ -189,8 +188,6 @@ services:
       BASE_URL_PATH: 'https://idp.gtis.guru'
       SECURE_COOKIE: 'false'
       SHOW_SAML_ERRORS: 'true'
-      ADMIN_PROTECT_INDEX_PAGE: 'false'
-      THEME_USE: 'material:material'
       ADMIN_EMAIL: 'admin1@example.org'
       SECRET_SALT: 'NlFalr5Faa73coPUFPP78BCi2ZUYhL+qVCOuJ466Bh4='
       IDP_DOMAIN_NAME: 'idp.gtis.guru'
