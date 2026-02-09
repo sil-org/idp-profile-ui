@@ -2,8 +2,8 @@
   "name": "idp-profile-ui",
   "dependencies": {
     "@eslint/js": {
-      "version": "9.25.1",
-      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.25.1.tgz",
+      "version": "9.39.2",
+      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.39.2.tgz",
       "overridden": false
     },
     "@intlify/unplugin-vue-i18n": {
@@ -12,13 +12,13 @@
       "overridden": false
     },
     "@sentry/vite-plugin": {
-      "version": "2.23.0",
-      "resolved": "https://registry.npmjs.org/@sentry/vite-plugin/-/vite-plugin-2.23.0.tgz",
+      "version": "2.23.1",
+      "resolved": "https://registry.npmjs.org/@sentry/vite-plugin/-/vite-plugin-2.23.1.tgz",
       "overridden": false
     },
     "@sentry/vue": {
-      "version": "7.120.3",
-      "resolved": "https://registry.npmjs.org/@sentry/vue/-/vue-7.120.3.tgz",
+      "version": "7.120.4",
+      "resolved": "https://registry.npmjs.org/@sentry/vue/-/vue-7.120.4.tgz",
       "overridden": false
     },
     "@simplewebauthn/browser": {
@@ -27,8 +27,8 @@
       "overridden": false
     },
     "@vitejs/plugin-vue": {
-      "version": "5.2.3",
-      "resolved": "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-5.2.3.tgz",
+      "version": "5.2.4",
+      "resolved": "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-5.2.4.tgz",
       "overridden": false
     },
     "@zxcvbn-ts/core": {
@@ -47,8 +47,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.9.0",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.9.0.tgz",
+      "version": "1.13.5",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.13.5.tgz",
       "overridden": false
     },
     "date-fns": {
@@ -57,8 +57,8 @@
       "overridden": false
     },
     "eslint-plugin-prettier": {
-      "version": "5.2.6",
-      "resolved": "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.2.6.tgz",
+      "version": "5.5.5",
+      "resolved": "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.5.tgz",
       "overridden": false
     },
     "eslint-plugin-vue": {
@@ -67,18 +67,18 @@
       "overridden": false
     },
     "eslint-plugin-vuetify": {
-      "version": "2.5.2",
-      "resolved": "https://registry.npmjs.org/eslint-plugin-vuetify/-/eslint-plugin-vuetify-2.5.2.tgz",
+      "version": "2.5.3",
+      "resolved": "https://registry.npmjs.org/eslint-plugin-vuetify/-/eslint-plugin-vuetify-2.5.3.tgz",
       "overridden": false
     },
     "eslint": {
-      "version": "9.25.1",
-      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.25.1.tgz",
+      "version": "9.39.2",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.39.2.tgz",
       "overridden": false
     },
     "prettier": {
-      "version": "3.5.3",
-      "resolved": "https://registry.npmjs.org/prettier/-/prettier-3.5.3.tgz",
+      "version": "3.8.1",
+      "resolved": "https://registry.npmjs.org/prettier/-/prettier-3.8.1.tgz",
       "overridden": false
     },
     "rimraf": {
@@ -92,33 +92,33 @@
       "overridden": false
     },
     "sass": {
-      "version": "1.87.0",
-      "resolved": "https://registry.npmjs.org/sass/-/sass-1.87.0.tgz",
+      "version": "1.97.3",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.97.3.tgz",
       "overridden": false
     },
     "unplugin-vue-components": {
-      "version": "28.5.0",
-      "resolved": "https://registry.npmjs.org/unplugin-vue-components/-/unplugin-vue-components-28.5.0.tgz",
+      "version": "28.8.0",
+      "resolved": "https://registry.npmjs.org/unplugin-vue-components/-/unplugin-vue-components-28.8.0.tgz",
       "overridden": false
     },
     "vite-plugin-vuetify": {
-      "version": "2.1.1",
-      "resolved": "https://registry.npmjs.org/vite-plugin-vuetify/-/vite-plugin-vuetify-2.1.1.tgz",
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/vite-plugin-vuetify/-/vite-plugin-vuetify-2.1.3.tgz",
       "overridden": false
     },
     "vite": {
-      "version": "6.3.3",
-      "resolved": "https://registry.npmjs.org/vite/-/vite-6.3.3.tgz",
+      "version": "6.4.1",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-6.4.1.tgz",
       "overridden": false
     },
     "vue-i18n": {
-      "version": "10.0.7",
-      "resolved": "https://registry.npmjs.org/vue-i18n/-/vue-i18n-10.0.7.tgz",
+      "version": "10.0.8",
+      "resolved": "https://registry.npmjs.org/vue-i18n/-/vue-i18n-10.0.8.tgz",
       "overridden": false
     },
     "vue-router": {
-      "version": "4.5.0",
-      "resolved": "https://registry.npmjs.org/vue-router/-/vue-router-4.5.0.tgz",
+      "version": "4.6.4",
+      "resolved": "https://registry.npmjs.org/vue-router/-/vue-router-4.6.4.tgz",
       "overridden": false
     },
     "vue-sanitize-directive": {
@@ -127,13 +127,13 @@
       "overridden": false
     },
     "vue": {
-      "version": "3.5.13",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.13.tgz",
+      "version": "3.5.28",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.28.tgz",
       "overridden": false
     },
     "vuetify": {
-      "version": "3.8.2",
-      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.8.2.tgz",
+      "version": "3.11.8",
+      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.11.8.tgz",
       "overridden": false
     },
     "zxcvbn": {
