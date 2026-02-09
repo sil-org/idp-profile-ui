@@ -28,7 +28,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn v-if="isSupported && error" color="error" variant="outlined" @click=";(error = false), create()">
+      <v-btn v-if="isSupported && error" color="error" variant="outlined" @click=";((error = false), create())">
         {{ $t('2sv.key.touch.button.retry') }}
       </v-btn>
 
