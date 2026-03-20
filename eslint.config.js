@@ -4,10 +4,10 @@ import prettier from 'eslint-plugin-prettier'
 
 export default [
   ...pluginVue.configs['flat/recommended'],
-  ...vuetify.configs['flat/base'],
   {
     plugins: {
-      prettier: prettier,
+      vuetify,
+      prettier,
     },
     rules: {
       'vue/no-unused-vars': 'error',

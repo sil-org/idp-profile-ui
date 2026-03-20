@@ -2,8 +2,8 @@
   "name": "idp-profile-ui",
   "dependencies": {
     "@eslint/js": {
-      "version": "9.39.2",
-      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.39.2.tgz",
+      "version": "9.39.4",
+      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.39.4.tgz",
       "overridden": false
     },
     "@intlify/unplugin-vue-i18n": {
@@ -47,8 +47,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.13.5",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.13.5.tgz",
+      "version": "1.13.6",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.13.6.tgz",
       "overridden": false
     },
     "date-fns": {
@@ -67,13 +67,13 @@
       "overridden": false
     },
     "eslint-plugin-vuetify": {
-      "version": "2.5.3",
-      "resolved": "https://registry.npmjs.org/eslint-plugin-vuetify/-/eslint-plugin-vuetify-2.5.3.tgz",
+      "version": "2.7.2",
+      "resolved": "https://registry.npmjs.org/eslint-plugin-vuetify/-/eslint-plugin-vuetify-2.7.2.tgz",
       "overridden": false
     },
     "eslint": {
-      "version": "9.39.2",
-      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.39.2.tgz",
+      "version": "9.39.4",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.39.4.tgz",
       "overridden": false
     },
     "prettier": {
@@ -92,8 +92,8 @@
       "overridden": false
     },
     "sass": {
-      "version": "1.97.3",
-      "resolved": "https://registry.npmjs.org/sass/-/sass-1.97.3.tgz",
+      "version": "1.98.0",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.98.0.tgz",
       "overridden": false
     },
     "unplugin-vue-components": {
@@ -127,13 +127,13 @@
       "overridden": false
     },
     "vue": {
-      "version": "3.5.28",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.28.tgz",
+      "version": "3.5.30",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.30.tgz",
       "overridden": false
     },
     "vuetify": {
-      "version": "3.11.8",
-      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.11.8.tgz",
+      "version": "3.12.3",
+      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.12.3.tgz",
       "overridden": false
     },
     "zxcvbn": {
