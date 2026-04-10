@@ -1,3 +1,11 @@
+x-db_healthcheck: &db_healthcheck
+  healthcheck:
+    test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+    start_period: 10s
+    interval: 10s
+    timeout: 5s
+    retries: 3
+
 services:
   node:
     image: node:22-alpine
@@ -17,15 +25,19 @@ services:
       - api
 
   api:
-    image: ghcr.io/sil-org/idp-pw-api:8
+    image: ghcr.io/sil-org/idp-pw-api:9
     platform: linux/amd64
     ports:
       - '8080:80'
     depends_on:
-      - profileDb
-      - broker
-      - zxcvbn
-      - idp
+      profileDb:
+        condition: service_healthy
+      broker:
+        condition: service_started
+      zxcvbn:
+        condition: service_started
+      idp:
+        condition: service_started
     env_file:
       - ./.env.local
     environment:
@@ -67,6 +79,7 @@ services:
       MYSQL_DATABASE: 'profile'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+    <<: *db_healthcheck
 
   profilePhpmyadmin:
     image: phpmyadmin:5
@@ -119,7 +132,8 @@ services:
     ports:
       - '8090:80'
     depends_on:
-      - brokerDb
+      brokerDb:
+        condition: service_healthy
     env_file:
       - ./.env.local
     environment:
@@ -145,7 +159,7 @@ services:
       MFA_API_SECRET: 11345678-1234-1234-1234-12345678
       MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
       MFA_WEBAUTHN_rpId: gtis.guru
-    command: ['bash', '-c', 'whenavail brokerDb 3306 60 ./yii migrate --interactive=0 && ./run.sh']
+    command: ['bash', '-c', './yii migrate --interactive=0 && ./run.sh']
 
   brokerDb:
     image: mariadb:10
@@ -156,6 +170,7 @@ services:
       MYSQL_DATABASE: 'broker'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+    <<: *db_healthcheck
 
   brokerPhpmyadmin:
     image: phpmyadmin:5
@@ -179,8 +194,10 @@ services:
     ports:
       - '8088:80'
     depends_on:
-      - silAuthDb
-      - broker
+      silAuthDb:
+        condition: service_healthy
+      broker:
+        condition: service_started
     env_file:
       - ./.env.local
     environment:
@@ -205,7 +222,7 @@ services:
       PASSWORD_FORGOT_URL: 'https://profile.gtis.guru/#/password/forgot'
       PROFILE_URL: 'https://profile.gtis.guru/#'
       TRUSTED_URL_DOMAINS: profile.gtis.guru
-    command: ['bash', '-c', 'whenavail silAuthDb 3306 60 ./run-idp.sh']
+    command: ['bash', '-c', './run-idp.sh']
 
   silAuthDb:
     image: mariadb:10
@@ -216,6 +233,7 @@ services:
       MYSQL_DATABASE: 'silauth'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+    <<: *db_healthcheck
 
   dynamorestart:
     build: ./dynamorestart
