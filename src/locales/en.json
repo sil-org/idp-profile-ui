@@ -187,7 +187,7 @@
     },
     "forgot": {
       "header": "Forgot my password",
-      "unameInput": "Enter your {0} username",
+      "unameInput": "Enter your {0} username or email",
       "required": "A username is required",
       "clickOnly": "Please click me to send a link",
       "button": {
