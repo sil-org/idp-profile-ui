@@ -187,7 +187,7 @@
     },
     "forgot": {
       "header": "He olvidado mi contraseña",
-      "unameInput": "Ingrese su {0} nombre de usuario",
+      "unameInput": "Ingrese su nombre de usuario o correo electrónico de {0}",
       "required": "Se requiere nombre de usuario",
       "clickOnly": "Por favor, haz clic para enviar un enlace",
       "button": {

@@ -187,7 +187,7 @@
     },
     "forgot": {
       "header": "비밀번호를 잊어버렸습니다",
-      "unameInput": "{0} 사용자 이름을 입력하십시오.",
+      "unameInput": "{0} 사용자 이름 또는 이메일을 입력하세요.",
       "required": "아이디(username) 는 필수 입력사항입니다",
       "clickOnly": "링크를 보내려면 여기를 클릭하십시오.",
       "button": {
