@@ -196,7 +196,7 @@
     },
     "forgotSent": {
       "header": "Email sent",
-      "emailComing": "If the username or email address exists on this system, you will receive an email with instructions to reset your password.",
+      "emailComing": "If the username or email address exists on this system, you will receive an email with instructions to reset your password."
     },
     "reset": {
       "verify": {

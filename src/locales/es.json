@@ -196,10 +196,7 @@
     },
     "forgotSent": {
       "header": "Correo electrónico enviado",
-      "emailComing": "Enviaremos un correo electrónico con un enlace especial a la siguiente dirección de correo electrónico pronto:",
-      "alternates": "Si no tiene acceso a esta cuenta de correo electrónico, por favor utilice una de las alternativas que se aparece a continuación.",
-      "instead": "Utilice esta pestaña en su lugar",
-      "too": "Enviado también a este correo electrónico"
+      "emailComing": "Si el nombre de usuario o la dirección de correo electrónico existen en este sistema, recibirá un correo electrónico con instrucciones para restablecer su contraseña."
     },
     "reset": {
       "verify": {
