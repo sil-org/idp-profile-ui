@@ -81,12 +81,12 @@ export default {
 
       if (valid) {
         try {
-          const reset = await this.$API.post('reset', {
+          await this.$API.post('reset', {
             username: this.uname,
             verification_token: this.recaptchaResponse,
           })
 
-          this.$router.push(`/password/forgot/${reset.uid}`)
+          this.$router.push('/password/forgot/sent')
         } catch (error) {
           grecaptcha.reset()
           throw error
