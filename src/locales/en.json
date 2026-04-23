@@ -196,10 +196,7 @@
     },
     "forgotSent": {
       "header": "Email sent",
-      "emailComing": "We will send an email with a special link to the following email address in a minute:",
-      "alternates": "If you do not currently have access to this email account, please use one of the alternates below.",
-      "instead": "Email to this address instead",
-      "too": "Sent to this email as well"
+      "emailComing": "If the username or email address exists on this system, you will receive an email with instructions to reset your password.",
     },
     "reset": {
       "verify": {
