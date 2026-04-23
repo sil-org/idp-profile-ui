@@ -184,7 +184,7 @@ services:
       PMA_PASSWORD: 'pass'
 
   idp:
-    image: ghcr.io/sil-org/ssp-base:11
+    image: ghcr.io/sil-org/ssp-base:12
     platform: linux/amd64
     volumes:
       - ./development/saml20-idp-hosted.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-hosted.php
