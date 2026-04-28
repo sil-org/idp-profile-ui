@@ -67,7 +67,7 @@ export default [
     redirect: '/password/forgot',
   },
   {
-    path: '/password/forgot/:id',
+    path: '/password/forgot/sent',
     component: ForgotEmailSent,
     meta: {
       public: true,
