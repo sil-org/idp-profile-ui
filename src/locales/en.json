@@ -195,7 +195,7 @@
       }
     },
     "forgotSent": {
-      "header": "Email sent",
+      "header": "Request received",
       "emailComing": "If the username or email address exists on this system, you will receive an email with instructions to reset your password."
     },
     "reset": {

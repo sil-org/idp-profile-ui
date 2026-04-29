@@ -195,7 +195,7 @@
       }
     },
     "forgotSent": {
-      "header": "Correo electrónico enviado",
+      "header": "Solicitud recibida",
       "emailComing": "Si el nombre de usuario o la dirección de correo electrónico existen en este sistema, recibirá un correo electrónico con instrucciones para restablecer su contraseña."
     },
     "reset": {

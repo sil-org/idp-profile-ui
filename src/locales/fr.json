@@ -195,7 +195,7 @@
       }
     },
     "forgotSent": {
-      "header": "Email envoyé",
+      "header": "Demande reçue",
       "emailComing": "Si votre nom d'utilisateur ou votre adresse électronique existe déjà dans ce système, vous recevrez un courriel contenant les instructions pour réinitialiser votre mot de passe."
     },
     "reset": {
