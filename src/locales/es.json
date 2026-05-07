@@ -121,11 +121,7 @@
       },
       "dndCard": {
         "title": "No divulgar",
-        "info": "Cuando está habilitado, el uso del proceso Olvidé la contraseña producirá un mensaje que indica que su cuenta no existe. Sin embargo, aún le enviará un correo electrónico con un enlace que puede usar para restablecer su contraseña. Esto es tipicamente utilizado por individuos en lugares sensibles.",
-        "button": {
-          "enable": "Encender",
-          "disable": "Apagar"
-        }
+        "info": "Si necesita usar el proceso «¿Olvidó su contraseña?», verá un mensaje que no indicará si su cuenta existe o no. Tenga la seguridad de que aun así recibirá un correo electrónico con un enlace que podrá usar para restablecer su contraseña."
       }
     },
     "progress": {

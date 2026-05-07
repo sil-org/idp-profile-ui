@@ -121,11 +121,7 @@
       },
       "dndCard": {
         "title": "Ne pas divulguer",
-        "info": "Lorsque cette option est activée, l'utilisation du processus de mot de passe oublié générera un message indiquant que votre compte n'existe pas. Cependant, il vous enverra tout de même un email avec un lien que vous pourrez utiliser pour réinitialiser votre mot de passe.  Ceci est généralement utilisé par des individus dans des endroits sensibles.",
-        "button": {
-          "enable": "Activer",
-          "disable": "Désactiver"
-        }
+        "info": "Si vous devez utiliser le processus « Mot de passe oublié », vous verrez un message qui n’indiquera pas si votre compte existe ou non. Soyez assuré que vous recevrez tout de même un e-mail contenant un lien que vous pourrez utiliser pour réinitialiser votre mot de passe."
       }
     },
     "progress": {
