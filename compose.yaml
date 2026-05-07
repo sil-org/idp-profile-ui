@@ -202,7 +202,7 @@ services:
       - ./.env.local
     environment:
       ADMIN_PASS: 'a'
-      BASE_URL_PATH: 'https://idp.gtis.guru'
+      BASE_URL_PATH: 'https://idp.gtis.guru/'
       SECURE_COOKIE: 'false'
       SHOW_SAML_ERRORS: 'true'
       ADMIN_EMAIL: 'admin1@example.org'
@@ -221,7 +221,7 @@ services:
       PASSWORD_CHANGE_URL: 'https://profile.gtis.guru/#/password/create'
       PASSWORD_FORGOT_URL: 'https://profile.gtis.guru/#/password/forgot'
       PROFILE_URL: 'https://profile.gtis.guru/#'
-      TRUSTED_URL_DOMAINS: profile.gtis.guru
+      TRUSTED_URL_DOMAINS: 'profile.gtis.guru,idp.gtis.guru'
     command: ['bash', '-c', './run-idp.sh']
 
   silAuthDb:
