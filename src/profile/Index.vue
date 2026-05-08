@@ -30,7 +30,7 @@
       </v-col>
 
       <v-col cols="12" sm="6" md="4">
-        <DoNotDiscloseCard :dnd="user.hide" />
+        <DoNotDiscloseCard />
       </v-col>
     </v-row>
 

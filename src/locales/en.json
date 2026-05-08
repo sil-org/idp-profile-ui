@@ -121,11 +121,7 @@
       },
       "dndCard": {
         "title": "Do not disclose",
-        "info": "When enabled, using the Forgot Password process will produce a message that your account does not exist. It will, however, still send you an email with a link you can use to reset your password.  This is typically used by individuals in sensitive locations.",
-        "button": {
-          "enable": "Turn on",
-          "disable": "Turn off"
-        }
+        "info": "If you need to use the Forgot Password process, you will see a message that doesn't reveal whether your account exists. Rest assured, you will still receive an email with a link you can use to reset your password."
       }
     },
     "progress": {
