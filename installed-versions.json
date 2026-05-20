@@ -47,8 +47,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.14.0",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.14.0.tgz",
+      "version": "1.16.0",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.16.0.tgz",
       "overridden": false
     },
     "date-fns": {
@@ -77,8 +77,8 @@
       "overridden": false
     },
     "prettier": {
-      "version": "3.8.1",
-      "resolved": "https://registry.npmjs.org/prettier/-/prettier-3.8.1.tgz",
+      "version": "3.8.3",
+      "resolved": "https://registry.npmjs.org/prettier/-/prettier-3.8.3.tgz",
       "overridden": false
     },
     "rimraf": {
@@ -127,13 +127,13 @@
       "overridden": false
     },
     "vue": {
-      "version": "3.5.32",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.32.tgz",
+      "version": "3.5.34",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.34.tgz",
       "overridden": false
     },
     "vuetify": {
-      "version": "3.12.5",
-      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.12.5.tgz",
+      "version": "3.12.6",
+      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.12.6.tgz",
       "overridden": false
     },
     "zxcvbn": {
