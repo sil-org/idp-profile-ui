@@ -78,11 +78,8 @@ export default {
       }
     },
     encodeBase64url: function (str) {
-      const base64 = btoa(str);
-      return base64
-        .replaceAll('+', '-')
-        .replaceAll('/', '_')
-        .replace(/=+$/, '');
+      const base64 = btoa(str)
+      return base64.replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '')
     },
     async create() {
       if (!this.isSupported) {
@@ -97,7 +94,7 @@ export default {
           optionsJSON: {
             excludeCredentials: [],
             ...this.newSecurityKey.data.publicKey,
-          }
+          },
         })
         await this.handleKeyResponse(registrationCredential)
       } catch (error) {
