@@ -22,8 +22,8 @@
       "overridden": false
     },
     "@simplewebauthn/browser": {
-      "version": "9.0.1",
-      "resolved": "https://registry.npmjs.org/@simplewebauthn/browser/-/browser-9.0.1.tgz",
+      "version": "13.3.0",
+      "resolved": "https://registry.npmjs.org/@simplewebauthn/browser/-/browser-13.3.0.tgz",
       "overridden": false
     },
     "@vitejs/plugin-vue": {
@@ -47,8 +47,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.16.0",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.16.0.tgz",
+      "version": "1.16.1",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.16.1.tgz",
       "overridden": false
     },
     "date-fns": {
@@ -92,8 +92,8 @@
       "overridden": false
     },
     "sass": {
-      "version": "1.99.0",
-      "resolved": "https://registry.npmjs.org/sass/-/sass-1.99.0.tgz",
+      "version": "1.100.0",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.100.0.tgz",
       "overridden": false
     },
     "unplugin-vue-components": {

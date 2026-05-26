@@ -77,6 +77,13 @@ export default {
         this.error = true
       }
     },
+    encodeBase64url: function (str) {
+      const base64 = btoa(str);
+      return base64
+        .replaceAll('+', '-')
+        .replaceAll('/', '_')
+        .replace(/=+$/, '');
+    },
     async create() {
       if (!this.isSupported) {
         this.error = true
@@ -85,10 +92,12 @@ export default {
 
       try {
         this.newSecurityKey = await add('webauthn')
-        let registrationCredential
-        registrationCredential = await startRegistration({
-          excludeCredentials: [],
-          ...this.newSecurityKey.data.publicKey,
+        this.newSecurityKey.data.publicKey.user.id = this.encodeBase64url(this.newSecurityKey.data.publicKey.user.id)
+        const registrationCredential = await startRegistration({
+          optionsJSON: {
+            excludeCredentials: [],
+            ...this.newSecurityKey.data.publicKey,
+          }
         })
         await this.handleKeyResponse(registrationCredential)
       } catch (error) {
