@@ -43,9 +43,24 @@ export default {
     usedEnterKey: false,
   }),
   created() {
+    this.prefillUsernameFromQuery()
     loadRecaptchaApi(this.recaptchaLoaded)
   },
   methods: {
+    prefillUsernameFromQuery() {
+      const { username } = this.$route.query
+
+      // Vue Router query params can be a string or an array of strings.
+      const queryUsername = Array.isArray(username) ? username[0] : username
+
+      if (typeof queryUsername === 'string') {
+        const trimmed = queryUsername.trim()
+
+        if (trimmed) {
+          this.uname = trimmed
+        }
+      }
+    },
     recaptchaLoaded() {
       grecaptcha.render(document.querySelector('.g-recaptcha'), {
         sitekey: `${import.meta.env.VITE_RECAPTCHA_ID}`,
@@ -66,12 +81,12 @@ export default {
 
       if (valid) {
         try {
-          const reset = await this.$API.post('reset', {
+          await this.$API.post('reset', {
             username: this.uname,
             verification_token: this.recaptchaResponse,
           })
 
-          this.$router.push(`/password/forgot/${reset.uid}`)
+          this.$router.push('/password/forgot/sent')
         } catch (error) {
           grecaptcha.reset()
           throw error

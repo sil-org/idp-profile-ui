@@ -11,7 +11,8 @@ ENV AWS_DISABLE_SSL="true"
 COPY DynamoRestart.php /dynamo/DynamoRestart.php
 COPY restart.php /dynamo/restart.php
 COPY composer.json /dynamo/composer.json
-RUN composer self-update && composer upgrade
+COPY composer.lock /dynamo/composer.lock
+RUN composer install
 
 EXPOSE 8080
 

@@ -121,11 +121,7 @@
       },
       "dndCard": {
         "title": "Do not disclose",
-        "info": "When enabled, using the Forgot Password process will produce a message that your account does not exist. It will, however, still send you an email with a link you can use to reset your password.  This is typically used by individuals in sensitive locations.",
-        "button": {
-          "enable": "Turn on",
-          "disable": "Turn off"
-        }
+        "info": "If you need to use the Forgot Password process, you will see a message that doesn't reveal whether your account exists. Rest assured, you will still receive an email with a link you can use to reset your password."
       }
     },
     "progress": {
@@ -187,7 +183,7 @@
     },
     "forgot": {
       "header": "Forgot my password",
-      "unameInput": "Enter your {0} username",
+      "unameInput": "Enter your {0} username or email",
       "required": "A username is required",
       "clickOnly": "Please click me to send a link",
       "button": {
@@ -195,11 +191,8 @@
       }
     },
     "forgotSent": {
-      "header": "Email sent",
-      "emailComing": "We will send an email with a special link to the following email address in a minute:",
-      "alternates": "If you do not currently have access to this email account, please use one of the alternates below.",
-      "instead": "Email to this address instead",
-      "too": "Sent to this email as well"
+      "header": "Request received",
+      "emailComing": "If the username or email address exists on this system, you will receive an email with instructions to reset your password."
     },
     "reset": {
       "verify": {

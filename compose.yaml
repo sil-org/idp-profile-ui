@@ -1,3 +1,11 @@
+x-db_healthcheck: &db_healthcheck
+  healthcheck:
+    test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+    start_period: 10s
+    interval: 10s
+    timeout: 5s
+    retries: 3
+
 services:
   node:
     image: node:22-alpine
@@ -17,15 +25,19 @@ services:
       - api
 
   api:
-    image: silintl/idp-pw-api:7
+    image: ghcr.io/sil-org/idp-pw-api:9
     platform: linux/amd64
     ports:
       - '8080:80'
     depends_on:
-      - profileDb
-      - broker
-      - zxcvbn
-      - idp
+      profileDb:
+        condition: service_healthy
+      broker:
+        condition: service_started
+      zxcvbn:
+        condition: service_started
+      idp:
+        condition: service_started
     env_file:
       - ./.env.local
     environment:
@@ -35,9 +47,6 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
       EMAILER_CLASS: \tests\mock\emailer\FakeEmailer
-      EMAIL_SERVICE_baseUrl: 'dummy'
-      EMAIL_SERVICE_accessToken: 'dummy'
-      EMAIL_SERVICE_assertValidIp: 'false'
       ALERTS_EMAIL_ENABLED: 'false'
       HELP_CENTER_URL: 'https://example.org/help-center'
       FROM_NAME: 'Tech support'
@@ -60,7 +69,6 @@ services:
       PASSWORD_RULE_minLength: '10'
       PASSWORD_RULE_maxLength: '255'
       PASSWORD_RULE_minScore: '3'
-    command: ['bash', '-c', 'whenavail profileDb 3306 60 ./yii migrate --interactive=0 && ./run.sh']
 
   profileDb:
     image: mariadb:10
@@ -71,6 +79,7 @@ services:
       MYSQL_DATABASE: 'profile'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+    <<: *db_healthcheck
 
   profilePhpmyadmin:
     image: phpmyadmin:5
@@ -91,7 +100,7 @@ services:
 
   proxy:
     # https://github.com/sil-org/traefik-https-proxy
-    image: silintl/traefik-https-proxy:1
+    image: ghcr.io/sil-org/traefik-https-proxy:1
     platform: linux/amd64
     ports:
       - '80:80'
@@ -116,14 +125,15 @@ services:
       BACKEND3_URL: 'http://idp:80'
 
   broker:
-    image: silintl/idp-id-broker:6
+    image: ghcr.io/sil-org/idp-id-broker:8
     platform: linux/amd64
     volumes:
-      - ./development/m991231_235959_insert_test_users.php:/data/console/migrations/m991231_235959_insert_test_users.php
+      - ./development/m991231_235959_insert_test_users.php:/app/console/migrations/m991231_235959_insert_test_users.php
     ports:
       - '8090:80'
     depends_on:
-      - brokerDb
+      brokerDb:
+        condition: service_healthy
     env_file:
       - ./.env.local
     environment:
@@ -134,25 +144,22 @@ services:
       MYSQL_DATABASE: 'broker'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+      FROM_EMAIL: 'mail@example.com'
       EMAILER_CLASS: Sil\SilIdBroker\Behat\Context\fakes\FakeEmailer
-      EMAIL_SERVICE_baseUrl: 'dummy'
-      EMAIL_SERVICE_accessToken: 'dummy'
-      EMAIL_SERVICE_assertValidIp: 'false'
       EMAIL_SIGNATURE: 'one red pill, please'
       SUPPORT_EMAIL: 'support@example.org'
       HELP_CENTER_URL: 'https://example.org/help'
-      PASSWORD_FORGOT_URL: 'https://example.org/forgot'
-      PASSWORD_PROFILE_URL: 'https://example.org/profile'
+      PASSWORD_FORGOT_URL: 'https://profile.gtis.guru/forgot'
+      PASSWORD_PROFILE_URL: 'https://profile.gtis.guru/'
+      IDP_DISPLAY_NAME: 'Local Development IDP'
+
+      # The API key and secret are defined in dynamorestart/DynamoRestart.php
+      MFA_TOTP_apiBaseUrl: mfaapi:8080/
+      MFA_API_KEY: 10345678-1234-1234-1234-123456789012
+      MFA_API_SECRET: 11345678-1234-1234-1234-12345678
       MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
-
-      # These are tied to similar values in dynamorestart/DynamoRestart.php
-      MFA_WEBAUTHN_apiKey: 10345678-1234-1234-1234-123456789012
-      MFA_WEBAUTHN_apiSecret: 11345678-1234-1234-1234-12345678
-      MFA_WEBAUTHN_appId: https://profile.gtis.guru/
-      MFA_WEBAUTHN_rpDisplayName: 'Local Development IDP'
       MFA_WEBAUTHN_rpId: gtis.guru
-
-    command: ['bash', '-c', 'whenavail brokerDb 3306 60 ./yii migrate --interactive=0 && ./run.sh']
+    command: ['bash', '-c', './yii migrate --interactive=0 && ./run.sh']
 
   brokerDb:
     image: mariadb:10
@@ -163,6 +170,7 @@ services:
       MYSQL_DATABASE: 'broker'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+    <<: *db_healthcheck
 
   brokerPhpmyadmin:
     image: phpmyadmin:5
@@ -176,28 +184,27 @@ services:
       PMA_PASSWORD: 'pass'
 
   idp:
-    image: silintl/ssp-base:10.1
+    image: ghcr.io/sil-org/ssp-base:12
     platform: linux/amd64
     volumes:
-      - ./development/authsources.php:/data/vendor/simplesamlphp/simplesamlphp/config/authsources.php
       - ./development/saml20-idp-hosted.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-hosted.php
       - ./development/saml20-sp-remote.php:/data/vendor/simplesamlphp/simplesamlphp/metadata/saml20-sp-remote.php
       # - ./development/php-debugging.ini:/etc/php/7.0/apache2/php.ini
-      - ./development/default-logo.png:/data/vendor/simplesamlphp/simplesamlphp/www/logo.png
+      - ./development/default-logo.png:/data/vendor/simplesamlphp/simplesamlphp/public/logo.png
     ports:
       - '8088:80'
     depends_on:
-      - silAuthDb
-      - broker
+      silAuthDb:
+        condition: service_healthy
+      broker:
+        condition: service_started
     env_file:
       - ./.env.local
     environment:
       ADMIN_PASS: 'a'
-      BASE_URL_PATH: 'https://idp.gtis.guru'
+      BASE_URL_PATH: 'https://idp.gtis.guru/'
       SECURE_COOKIE: 'false'
       SHOW_SAML_ERRORS: 'true'
-      ADMIN_PROTECT_INDEX_PAGE: 'false'
-      THEME_USE: 'material:material'
       ADMIN_EMAIL: 'admin1@example.org'
       SECRET_SALT: 'NlFalr5Faa73coPUFPP78BCi2ZUYhL+qVCOuJ466Bh4='
       IDP_DOMAIN_NAME: 'idp.gtis.guru'
@@ -214,8 +221,8 @@ services:
       PASSWORD_CHANGE_URL: 'https://profile.gtis.guru/#/password/create'
       PASSWORD_FORGOT_URL: 'https://profile.gtis.guru/#/password/forgot'
       PROFILE_URL: 'https://profile.gtis.guru/#'
-      TRUSTED_URL_DOMAINS: profile.gtis.guru
-    command: ['bash', '-c', 'whenavail silAuthDb 3306 60 ./run-idp.sh']
+      TRUSTED_URL_DOMAINS: 'profile.gtis.guru,idp.gtis.guru'
+    command: ['bash', '-c', './run-idp.sh']
 
   silAuthDb:
     image: mariadb:10
@@ -226,6 +233,7 @@ services:
       MYSQL_DATABASE: 'silauth'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
+    <<: *db_healthcheck
 
   dynamorestart:
     build: ./dynamorestart
@@ -264,12 +272,13 @@ services:
     volumes:
       - ./serverless-mfa-api/override:/src/override
     environment:
-      AWS_ENDPOINT: dynamo:8000
+      AWS_ENDPOINT: http://dynamo:8000
       AWS_DEFAULT_REGION: us-east-1
       AWS_ACCESS_KEY_ID: abc123
       AWS_SECRET_ACCESS_KEY: abc123
       AWS_DISABLE_SSL: 'true'
       API_KEY_TABLE: ApiKey
+      TOTP_TABLE: Totp
       WEBAUTHN_TABLE: WebAuthn
     depends_on:
       - dynamo
