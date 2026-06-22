@@ -21,16 +21,12 @@
     </v-alert>
 
     <v-row>
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="6">
         <PasswordCard :meta="user.password_meta" />
       </v-col>
 
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="6">
         <PasswordRecoveryCard :methods="alternates" />
-      </v-col>
-
-      <v-col cols="12" sm="6" md="4">
-        <DoNotDiscloseCard />
       </v-col>
     </v-row>
 
@@ -90,7 +86,6 @@ export default {
 <script setup>
 import Attribute from './Attribute.vue'
 import BackupCodeCard from './BackupCodeCard.vue'
-import DoNotDiscloseCard from './DoNotDiscloseCard.vue'
 import ProfileProgress from './ProfileProgress.vue'
 import PasswordCard from './PasswordCard.vue'
 import PasswordRecoveryCard from './PasswordRecoveryCard.vue'
