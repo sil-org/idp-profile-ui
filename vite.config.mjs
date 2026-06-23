@@ -34,6 +34,14 @@ export default defineConfig(({ mode }) => {
         clientPort: 443,
         host: 'profile.gtis.guru',
       },
+      headers: {
+        'X-Frame-Options': 'DENY',
+      },
+    },
+    preview: {
+      headers: {
+        'X-Frame-Options': 'DENY',
+      },
     },
     define: {
       __APP_VERSION__: JSON.stringify(env.UI_VERSION),
