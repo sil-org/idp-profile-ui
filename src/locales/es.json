@@ -20,7 +20,7 @@
   "app": {
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
-    "title": "Administración de Perfiles IdP - {0}"
+    "title": "Perfil de {0}"
   },
   "help": {
     "title": "Contactos de apoyo",

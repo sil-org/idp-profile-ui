@@ -20,7 +20,7 @@
   "app": {
     "login": "S'identifier",
     "logout": "Déconnexion",
-    "title": "Gestion de profil IdP - {0}"
+    "title": "Profil de {0}"
   },
   "help": {
     "title": "Contacts pour le soutien technique",
