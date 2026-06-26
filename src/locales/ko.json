@@ -20,7 +20,7 @@
   "app": {
     "login": "로그인",
     "logout": "로그아웃",
-    "title": "IdP 프로필 관리 - {0}"
+    "title": "{0} 프로필"
   },
   "help": {
     "title": "지원 연락처",
