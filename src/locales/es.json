@@ -197,9 +197,8 @@
     "reset": {
       "verify": {
         "header": "Verificación de restablecimiento de contraseña",
-        "verifying": "Verificando su código...",
-        "verified": "¡Felicitaciones! Ese era el código correcto, ahora puedes crear tu nueva contraseña.",
-        "expired": "Desafortunadamente, el código de verificación ya ha vencido. Envio otro correo electrónico ahora mismo con un nuevo código de verificación.  Puedes cerrar esta pestaña y busca su correo electrónico.",
+        "verifying": "Verificando su solicitud...",
+        "verified": "Su solicitud de restablecimiento de contraseña es válida; ya puede crear su nueva contraseña.",
         "invalid": "Desafortunadamente algo no funciona con ese enlace. Necesita intentarlo de nuevo.",
         "button": {
           "create": "Crear una nueva contraseña",
