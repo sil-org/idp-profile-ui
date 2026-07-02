@@ -197,9 +197,8 @@
     "reset": {
       "verify": {
         "header": "Password reset verification",
-        "verifying": "Verifying your code...",
-        "verified": "Congratulations!  That was the correct code, you may create your new password now.",
-        "expired": "Unfortunately that verification code has already expired.  I will send you another email right now with a new verification code.  You may go ahead and close this tab and check your email.",
+        "verifying": "Verifying your request...",
+        "verified": "Your password reset request is valid, you may create your new password now.",
         "invalid": "Unfortunately something is wrong with that link.  You will need to try again.",
         "button": {
           "create": "Create my new password",
