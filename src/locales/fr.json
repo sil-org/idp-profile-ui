@@ -197,9 +197,8 @@
     "reset": {
       "verify": {
         "header": "Vérification de réinitialisation du mot de passe",
-        "verifying": "Vérification de votre code en cours...",
-        "verified": "Félicitations! C'était le bon code, vous pouvez créer votre nouveau mot de passe maintenant.",
-        "expired": "Malheureusement, ce code de vérification a déjà expiré. Je vais vous envoyer un autre email tout de suite avec un nouveau code de vérification. Vous pouvez fermer cet onglet et consulter votre courrier électronique.",
+        "verifying": "Vérification de votre demande...",
+        "verified": "Votre demande de réinitialisation de mot de passe est valide ; vous pouvez maintenant créer votre nouveau mot de passe.",
         "invalid": "Malheureusement, quelque chose ne va pas avec ce lien.  Vous devrez essayer de nouveau.",
         "button": {
           "create": "Créer mon nouveau mot de passe",
