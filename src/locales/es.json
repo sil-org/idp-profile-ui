@@ -121,11 +121,7 @@
       },
       "dndCard": {
         "title": "No divulgar",
-        "info": "Cuando está habilitado, el uso del proceso Olvidé la contraseña producirá un mensaje que indica que su cuenta no existe. Sin embargo, aún le enviará un correo electrónico con un enlace que puede usar para restablecer su contraseña. Esto es tipicamente utilizado por individuos en lugares sensibles.",
-        "button": {
-          "enable": "Encender",
-          "disable": "Apagar"
-        }
+        "info": "Si necesita usar el proceso «¿Olvidó su contraseña?», verá un mensaje que no indicará si su cuenta existe o no. Tenga la seguridad de que aun así recibirá un correo electrónico con un enlace que podrá usar para restablecer su contraseña."
       }
     },
     "progress": {
@@ -187,7 +183,7 @@
     },
     "forgot": {
       "header": "He olvidado mi contraseña",
-      "unameInput": "Ingrese su {0} nombre de usuario",
+      "unameInput": "Ingrese su nombre de usuario o correo electrónico de {0}",
       "required": "Se requiere nombre de usuario",
       "clickOnly": "Por favor, haz clic para enviar un enlace",
       "button": {
@@ -195,18 +191,14 @@
       }
     },
     "forgotSent": {
-      "header": "Correo electrónico enviado",
-      "emailComing": "Enviaremos un correo electrónico con un enlace especial a la siguiente dirección de correo electrónico pronto:",
-      "alternates": "Si no tiene acceso a esta cuenta de correo electrónico, por favor utilice una de las alternativas que se aparece a continuación.",
-      "instead": "Utilice esta pestaña en su lugar",
-      "too": "Enviado también a este correo electrónico"
+      "header": "Solicitud recibida",
+      "emailComing": "Si el nombre de usuario o la dirección de correo electrónico existen en este sistema, recibirá un correo electrónico con instrucciones para restablecer su contraseña."
     },
     "reset": {
       "verify": {
         "header": "Verificación de restablecimiento de contraseña",
-        "verifying": "Verificando su código...",
-        "verified": "¡Felicitaciones! Ese era el código correcto, ahora puedes crear tu nueva contraseña.",
-        "expired": "Desafortunadamente, el código de verificación ya ha vencido. Envio otro correo electrónico ahora mismo con un nuevo código de verificación.  Puedes cerrar esta pestaña y busca su correo electrónico.",
+        "verifying": "Verificando su solicitud...",
+        "verified": "Su solicitud de restablecimiento de contraseña es válida; ya puede crear su nueva contraseña.",
         "invalid": "Desafortunadamente algo no funciona con ese enlace. Necesita intentarlo de nuevo.",
         "button": {
           "create": "Crear una nueva contraseña",

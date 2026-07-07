@@ -67,14 +67,21 @@ export default [
     redirect: '/password/forgot',
   },
   {
-    path: '/password/forgot/:id',
+    path: '/password/forgot/sent',
     component: ForgotEmailSent,
     meta: {
       public: true,
     },
   },
   {
-    path: '/password/reset/:id/verify/:code',
+    path: '/password/reset/:id/verify',
+    component: VerifyReset,
+    meta: {
+      public: true,
+    },
+  },
+  {
+    path: '/password/reset/:id/verify/:code', // keep this route for backward compatibility
     component: VerifyReset,
     meta: {
       public: true,

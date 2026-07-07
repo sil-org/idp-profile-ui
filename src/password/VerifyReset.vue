@@ -6,7 +6,6 @@
 
     <p v-if="verifying">{{ $t('password.reset.verify.verifying') }}</p>
     <p v-if="verified">{{ $t('password.reset.verify.verified') }}</p>
-    <p v-if="expired">{{ $t('password.reset.verify.expired') }}</p>
     <p v-if="invalid">{{ $t('password.reset.verify.invalid') }}</p>
 
     <ButtonBar>
@@ -27,7 +26,6 @@ export default {
   data: () => ({
     verifying: true,
     verified: false,
-    expired: false,
     invalid: false,
   }),
   async created() {
@@ -40,11 +38,7 @@ export default {
 
       this.verified = true
     } catch (e) {
-      if (e.status == 410) {
-        this.expired = true
-      } else {
-        this.invalid = true
-      }
+      this.invalid = true
     } finally {
       this.verifying = false
     }
