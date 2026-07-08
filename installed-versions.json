@@ -107,8 +107,8 @@
       "overridden": false
     },
     "vite": {
-      "version": "6.4.2",
-      "resolved": "https://registry.npmjs.org/vite/-/vite-6.4.2.tgz",
+      "version": "6.4.3",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-6.4.3.tgz",
       "overridden": false
     },
     "vue-i18n": {
