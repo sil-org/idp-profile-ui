@@ -3,5 +3,9 @@
   "makefile.extensionOutputFolder": "./.vscode",
   "files.trimTrailingWhitespace": true,
   "editor.rulers": [120],
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "itse",
+    "projectKey": "sil-org_idp-profile-ui"
+  }
 }
