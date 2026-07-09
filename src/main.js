@@ -55,6 +55,11 @@ async function main() {
       dsn,
       integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
       environment: location.hostname,
+      // Preserve the pre-v10.4 default of inferring the user's info,
+      // `sendDefaultPii: true` (now deprecated) would also enable.
+      dataCollection: {
+        userInfo: true,
+      },
       // Set tracesSampleRate to 1.0 to capture 100%
       // of transactions for performance monitoring.
       // We recommend adjusting this value in production
