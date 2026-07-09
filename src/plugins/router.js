@@ -1,3 +1,4 @@
+import { HTTP_STATUS_UNAUTHORIZED } from '../main'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import profileRoutes from '@/profile/routes'
 import passwordRoutes from '@/password/routes'
@@ -27,12 +28,12 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   if (!to.meta.public) {
     try {
       await user.refresh()
     } catch (e) {
-      if (e.status === 401) {
+      if (e.status === HTTP_STATUS_UNAUTHORIZED) {
         user.login(to.path, to.query.invite)
       }
       throw e
