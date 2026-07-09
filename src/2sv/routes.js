@@ -34,28 +34,28 @@ export default [
   {
     path: '/2sv/authenticator/intro',
     component: AuthenticatorIntro,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, _from, next) => {
       skipWhen(mfa.totp.id, '/2sv/usb-security-key/intro', next)
     },
   },
   {
     path: '/2sv/authenticator/download-app',
     component: DownloadApp,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, _from, next) => {
       skipWhen(mfa.totp.id, '/2sv/usb-security-key/intro', next)
     },
   },
   {
     path: '/2sv/authenticator/scan-qr',
     component: ScanQr,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, _from, next) => {
       skipWhen(mfa.totp.id, '/2sv/usb-security-key/intro', next)
     },
   },
   {
     path: '/2sv/authenticator/verify-qr-code',
     component: VerifyQrCode,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, _from, next) => {
       skipWhen(mfa.totp.id, '/2sv/usb-security-key/intro', next)
     },
   },
@@ -82,7 +82,7 @@ export default [
   {
     path: '/2sv/printable-backup-codes/intro',
     component: CodesIntro,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_, _from, next) => {
       skipWhen(mfa.backup.id, '/profile/complete', next)
     },
   },
