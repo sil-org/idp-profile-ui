@@ -7,6 +7,7 @@
     <v-row>
       <v-col cols="6">
         <Attribute :name="$t('profile.index.username')" :value="user.idp_username" sameline />
+        <Attribute :name="$t('profile.index.email')" :value="user.email" sameline />
         <Attribute :name="$t('profile.index.lastLogin')" :value="formatDate(user.last_login)" sameline />
         <Attribute :name="$t('profile.index.manager')" :value="user.manager_email" sameline />
       </v-col>

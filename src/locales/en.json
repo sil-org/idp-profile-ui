@@ -70,6 +70,7 @@
     "index": {
       "header": "My {0} Identity",
       "username": "Username: ",
+      "email": "Email: ",
       "lastLogin": "Last login: ",
       "manager": "Recovery contact: ",
       "2sv": "2-Step Verification",
