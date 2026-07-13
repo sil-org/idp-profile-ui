@@ -104,7 +104,7 @@ export default {
         await this.handleKeyResponse(registrationCredential)
       } catch (error) {
         this.error = true
-        console.info(error)
+        console.error(error)
       }
     },
   },
