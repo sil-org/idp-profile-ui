@@ -32,10 +32,10 @@ export const verify = async (id, verification = '') => {
 export const retrieve = async () => {
   const all = await api.get('mfa')
 
-  mfa.totp = { ...all.find((m) => m.type === 'totp') }
-  mfa.u2f = { ...all.find((m) => m.type === 'u2f') }
-  mfa.keys = { ...all.find((m) => m.type === 'webauthn') }
-  mfa.backup = { ...all.find((m) => m.type === 'backupcode') }
+  mfa.totp = { ...(all.find((m) => m.type === 'totp') || {}) }
+  mfa.u2f = { ...(all.find((m) => m.type === 'u2f') || {}) }
+  mfa.keys = { ...(all.find((m) => m.type === 'webauthn') || {}) }
+  mfa.backup = { ...(all.find((m) => m.type === 'backupcode') || {}) }
 
   mfa.numVerified = numOfVerifiedMfas() // currently, the api only returns verified mfas
 }
