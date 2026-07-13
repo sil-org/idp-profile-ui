@@ -70,6 +70,7 @@
     "index": {
       "header": "Mon identité {0}",
       "username": "Nom d'utilisateur : ",
+      "email": "E-mail : ",
       "lastLogin": "Dernière connexion : ",
       "manager": "Contact de récupération: ",
       "2sv": "Vérification en 2 Étapes",
