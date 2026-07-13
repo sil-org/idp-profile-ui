@@ -5,10 +5,7 @@ import { api, i18n, returnTo, router, user, vuetify } from './plugins'
 import { createApp } from 'vue'
 import { browserTracingIntegration, init, replayIntegration } from '@sentry/vue'
 import VueSanitize from 'vue-sanitize-directive'
-
-export const HTTP_STATUS_NOT_FOUND = 404
-export const HTTP_STATUS_UNAUTHORIZED = 401
-export const HTTP_STATUS_FORBIDDEN = 403
+import { HTTP_STATUS_FORBIDDEN, HTTP_STATUS_NOT_FOUND, HTTP_STATUS_UNAUTHORIZED } from './consts'
 
 const app = createApp(App)
 

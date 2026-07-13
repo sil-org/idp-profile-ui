@@ -1,6 +1,6 @@
 import axios from 'axios'
 import user from '@/plugins/user'
-import { HTTP_STATUS_FORBIDDEN, HTTP_STATUS_UNAUTHORIZED } from '../main'
+import { HTTP_STATUS_FORBIDDEN, HTTP_STATUS_UNAUTHORIZED } from '../consts'
 const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
   withCredentials: true,

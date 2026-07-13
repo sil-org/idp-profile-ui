@@ -1,4 +1,4 @@
-import { HTTP_STATUS_UNAUTHORIZED } from '../main'
+import { HTTP_STATUS_UNAUTHORIZED } from '../consts'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import profileRoutes from '@/profile/routes'
 import passwordRoutes from '@/password/routes'
