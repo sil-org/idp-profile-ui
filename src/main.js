@@ -3,7 +3,7 @@ import eventBus from './eventBus'
 import registerComponents from '@/global/components'
 import { api, i18n, returnTo, router, user, vuetify } from './plugins'
 import { createApp } from 'vue'
-import { browserTracingIntegration, init, replayIntegration } from '@sentry/vue'
+import { browserTracingIntegration, init as sentryInit, replayIntegration } from '@sentry/vue'
 import VueSanitize from 'vue-sanitize-directive'
 import { HTTP_STATUS_FORBIDDEN, HTTP_STATUS_NOT_FOUND, HTTP_STATUS_UNAUTHORIZED } from './consts'
 
@@ -51,7 +51,7 @@ async function main() {
   if (location.hostname !== 'profile.gtis.guru') {
     console.info('Environment:', location.hostname, 'Release:', release, 'DSN:', dsn)
 
-    init({
+    sentryInit({
       app,
       dsn,
       integrations: [browserTracingIntegration({ router }), replayIntegration()],
