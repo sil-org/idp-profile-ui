@@ -11,36 +11,48 @@ export const mfa = reactive({
 
 export const newKeyName = {
   _value: '',
-  get() {
+  get: function () {
     return this._value
   },
-  set(value) {
+  set: function (value) {
     this._value = value
   },
 }
 
-export const add = async (type) => api.post('mfa', { type })
+export const add = async (type) => await api.post('mfa', { type })
 
 export const verify = async (id, verification = '') => {
   const verifiedMfa = await api.put(`mfa/${id}/verify`, {
     value: verification,
   })
 
-  mfa[verifiedMfa.type] = { ...verifiedMfa }
+  mfa[verifiedMfa.type] = Object.assign({}, verifiedMfa)
 }
 
 export const retrieve = async () => {
   const all = await api.get('mfa')
 
-  mfa.totp = { ...all.find((m) => m.type === 'totp') }
-  mfa.u2f = { ...all.find((m) => m.type === 'u2f') }
-  mfa.keys = { ...all.find((m) => m.type === 'webauthn') }
-  mfa.backup = { ...all.find((m) => m.type === 'backupcode') }
+  mfa.totp = Object.assign(
+    {},
+    all.find((m) => m.type === 'totp'),
+  )
+  mfa.u2f = Object.assign(
+    {},
+    all.find((m) => m.type === 'u2f'),
+  )
+  mfa.keys = Object.assign(
+    {},
+    all.find((m) => m.type === 'webauthn'),
+  )
+  mfa.backup = Object.assign(
+    {},
+    all.find((m) => m.type === 'backupcode'),
+  )
 
-  mfa.numVerified = numOfVerifiedMfas() // currently, the api only returns verified mfas
+  mfa.numVerified = numOfVerifiedMfas(mfa) // currently, the api only returns verified mfas
 }
 
-function numOfVerifiedMfas() {
+function numOfVerifiedMfas(mfa) {
   let num = 0
 
   num += mfa.totp.id ? 1 : 0
@@ -58,7 +70,7 @@ export const remove = async (id) => {
 }
 
 export const change = async (id, updates) => {
-  return api.put(`mfa/${id}`, updates)
+  return await api.put(`mfa/${id}`, updates)
 }
 
 export const find = (id) => {
@@ -69,7 +81,7 @@ export const find = (id) => {
 export const verifyWebauthn = async (id, verification = '', label = '') => {
   const verifiedMfa = await api.put(`mfa/${id}/verify/registration`, {
     value: verification,
-    label,
+    label: label,
   })
   mfa.keys = verifiedMfa
 }
@@ -83,7 +95,7 @@ export const removeWebauthn = async (mfaId, webauthnId) => {
 }
 
 export const changeWebauthn = async (mfaId, webauthnId, updates) => {
-  return api.put(`mfa/${mfaId}/webauthn/${webauthnId}`, updates)
+  return await api.put(`mfa/${mfaId}/webauthn/${webauthnId}`, updates)
 }
 
 export default mfa
