@@ -70,6 +70,7 @@
     "index": {
       "header": "내 {0} ID",
       "username": "사용자이름 : ",
+      "email": "이메일: ",
       "lastLogin": "마지막 로그인 ",
       "manager": "복구 담당자: ",
       "2sv": "2단계 인증",
