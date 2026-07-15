@@ -11,15 +11,15 @@ export const mfa = reactive({
 
 export const newKeyName = {
   _value: '',
-  get: function () {
+  get() {
     return this._value
   },
-  set: function (value) {
+  set(value) {
     this._value = value
   },
 }
 
-export const add = async (type) => await api.post('mfa', { type })
+export const add = async (type) => api.post('mfa', { type })
 
 export const verify = async (id, verification = '') => {
   const verifiedMfa = await api.put(`mfa/${id}/verify`, {
@@ -70,7 +70,7 @@ export const remove = async (id) => {
 }
 
 export const change = async (id, updates) => {
-  return await api.put(`mfa/${id}`, updates)
+  return api.put(`mfa/${id}`, updates)
 }
 
 export const find = (id) => {
@@ -81,7 +81,7 @@ export const find = (id) => {
 export const verifyWebauthn = async (id, verification = '', label = '') => {
   const verifiedMfa = await api.put(`mfa/${id}/verify/registration`, {
     value: verification,
-    label: label,
+    label,
   })
   mfa.keys = verifiedMfa
 }
@@ -95,7 +95,7 @@ export const removeWebauthn = async (mfaId, webauthnId) => {
 }
 
 export const changeWebauthn = async (mfaId, webauthnId, updates) => {
-  return await api.put(`mfa/${mfaId}/webauthn/${webauthnId}`, updates)
+  return api.put(`mfa/${mfaId}/webauthn/${webauthnId}`, updates)
 }
 
 export default mfa
