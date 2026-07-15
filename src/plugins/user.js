@@ -28,7 +28,7 @@ const user = reactive({
     window.location = logoutUrl
   },
   isNew() {
-    return !(this.password_meta && this.password_meta.last_changed)
+    return !this.password_meta?.last_changed
   },
 })
 

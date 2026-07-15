@@ -3,8 +3,9 @@ import eventBus from './eventBus'
 import registerComponents from '@/global/components'
 import { api, i18n, returnTo, router, user, vuetify } from './plugins'
 import { createApp } from 'vue'
-import * as Sentry from '@sentry/vue'
+import { browserTracingIntegration, init as sentryInit, replayIntegration } from '@sentry/vue'
 import VueSanitize from 'vue-sanitize-directive'
+import { HTTP_STATUS_FORBIDDEN, HTTP_STATUS_NOT_FOUND, HTTP_STATUS_UNAUTHORIZED } from './consts'
 
 const app = createApp(App)
 
@@ -48,12 +49,12 @@ async function main() {
   app.mount('#app')
 
   if (location.hostname !== 'profile.gtis.guru') {
-    console.debug('Environment:', location.hostname, 'Release:', release, 'DSN:', dsn)
+    console.info('Environment:', location.hostname, 'Release:', release, 'DSN:', dsn)
 
-    Sentry.init({
+    sentryInit({
       app,
       dsn,
-      integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
+      integrations: [browserTracingIntegration({ router }), replayIntegration()],
       environment: location.hostname,
       // Preserve the pre-v10.4 default of inferring the user's info,
       // `sendDefaultPii: true` (now deprecated) would also enable.
@@ -74,7 +75,11 @@ async function main() {
       replaysOnErrorSampleRate: 1.0,
       beforeSend(event, hint) {
         const status = hint.originalException?.status
-        if (status === 404 || status === 401 || status === 403) {
+        if (
+          status === HTTP_STATUS_NOT_FOUND ||
+          status === HTTP_STATUS_UNAUTHORIZED ||
+          status === HTTP_STATUS_FORBIDDEN
+        ) {
           return null
         }
         return event
