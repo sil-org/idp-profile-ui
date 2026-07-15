@@ -31,7 +31,7 @@ export default {
     return this.steps.find((step) => step.paths.includes(path))
   },
   isLast(step) {
-    return this.steps[this.steps.length - 1].id === step.id
+    return this.steps.at(-1).id === step.id
   },
   next(step) {
     // since the id is +1 of the position, we can simply use the id of the passed step to get the next array position
