@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import eventBus from '@/eventBus'
+
 export default {
   name: 'ForgotPassword',
   data: () => ({
@@ -93,7 +95,7 @@ export default {
         }
       } else {
         errors.forEach((error) => {
-          throw Error(error.errorMessages.join('\n'))
+          eventBus.emit('error', { message: error.errorMessages.join('\n') })
         })
       }
     },

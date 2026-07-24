@@ -40,6 +40,7 @@
 
 <script>
 import { change, changeWebauthn } from '@/global/mfa'
+import eventBus from '@/eventBus'
 
 export default {
   props: {
@@ -79,7 +80,8 @@ export default {
     },
     async save() {
       if (this.newLabel.length > 65) {
-        throw Error(this.$t('global.mfaLabelTooLong'))
+        eventBus.emit('error', { message: this.$t('global.mfaLabelTooLong') })
+        return
       }
       const mfa = this.isWebauthn
         ? await changeWebauthn(this.mfaId, this.keyId, {

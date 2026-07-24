@@ -91,6 +91,7 @@
 <script>
 import ProfileWizard from '@/profile/ProfileWizard.vue'
 import { recoveryMethods, add, remove } from '@/global/recoveryMethods'
+import eventBus from '@/eventBus'
 
 export default {
   name: 'PasswordRecovery',
@@ -117,7 +118,7 @@ export default {
         this.$root.$emit('clear-messages') // listener in App.vue (this is a temporary hack hopefully)
       } else {
         errors.forEach((error) => {
-          throw Error(error.errorMessages.join('\n'))
+          eventBus.emit('error', { message: error.errorMessages.join('\n') })
         })
       }
     },

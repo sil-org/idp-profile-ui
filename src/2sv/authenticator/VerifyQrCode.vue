@@ -42,6 +42,7 @@
 <script>
 import ProfileWizard from '@/profile/ProfileWizard.vue'
 import { verify } from '@/global/mfa'
+import eventBus from '@/eventBus'
 
 export default {
   components: {
@@ -71,7 +72,7 @@ export default {
         }
       } else {
         errors.forEach((error) => {
-          throw Error(error.errorMessages.join('\n'))
+          eventBus.emit('error', { message: error.errorMessages.join('\n') })
         })
       }
     },
