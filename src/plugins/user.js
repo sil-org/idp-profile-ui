@@ -2,6 +2,19 @@ import { reactive } from 'vue'
 import api from '@/plugins/api' // Adjust the path as necessary
 
 const user = reactive({
+  resolveReturnTo(returnTo) {
+    if (!returnTo) {
+      return window.location.origin
+    }
+
+    if (returnTo.startsWith('#')) {
+      return `${window.location.origin}/${returnTo}`
+    }
+
+    const path = returnTo.startsWith('/') ? returnTo : `/${returnTo}`
+
+    return `${window.location.origin}/#${path}`
+  },
   async refresh() {
     const userData = await api.get('/user/me') // Use the API instance
     Object.assign(this, userData)
@@ -10,22 +23,21 @@ const user = reactive({
     return !!this.idp_username
   },
   login(returnTo, inviteCode = '') {
-    let loginUrl = `${api.defaults.baseURL}/auth/login`
+    const params = new URLSearchParams()
+
+    params.set('ReturnTo', this.resolveReturnTo(returnTo))
 
     if (inviteCode) {
-      loginUrl += `?invite=${inviteCode}&ReturnToOnError=/profile/invite/expired`
+      params.set('invite', inviteCode)
+      params.set('ReturnToOnError', `${window.location.origin}/#/profile/invite/expired`)
     }
 
-    if (returnTo) {
-      loginUrl += loginUrl.includes('?') ? `&ReturnTo=${returnTo}` : `?ReturnTo=${returnTo}`
-    }
-
-    window.location = loginUrl
+    window.location = `${api.defaults.baseURL}/auth/login?${params.toString()}`
   },
   logout() {
-    const logoutUrl = `${api.defaults.baseURL}/auth/logout`
+    const params = new URLSearchParams({ ReturnTo: window.location.origin })
 
-    window.location = logoutUrl
+    window.location = `${api.defaults.baseURL}/auth/logout?${params.toString()}`
   },
   isNew() {
     return !this.password_meta?.last_changed
