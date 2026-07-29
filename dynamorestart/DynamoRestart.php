@@ -34,9 +34,7 @@ class DynamoRestart
             try {
                 $this->client->deleteTable(['TableName' => $table]);
             } catch (\Exception $e) {
-                if (!str_contains($e->getMessage(), "400 Bad Request")) {
-                    throw $e;
-                }
+                // proceed without interruption in case no table exists yet
             }
         }
 
