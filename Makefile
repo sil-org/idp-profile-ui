@@ -1,6 +1,6 @@
 start: deps mfaapi
 	docker compose pull
-	docker compose up -d --build proxy brokerPhpmyadmin
+	docker compose up -d proxy brokerPhpmyadmin
 
 deps:
 	docker compose run --rm node npm install
@@ -20,7 +20,7 @@ phpmyadmin:
 	docker compose up -d brokerPhpmyadmin profilePhpmyadmin
 
 mfaapi:
-	docker compose up -d --build mfaapi
+	docker compose up -d mfaapi
 
 clean:
 	docker compose run --rm node npm run clean
@@ -32,3 +32,6 @@ format:
 
 lint:
 	docker compose run --rm node npm run lint
+
+build:
+	docker compose build

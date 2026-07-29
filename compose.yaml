@@ -161,6 +161,12 @@ services:
       MFA_WEBAUTHN_apiBaseUrl: mfaapi:8080/
       MFA_WEBAUTHN_rpId: gtis.guru
     command: ['bash', '-c', './yii migrate --interactive=0 && ./run.sh']
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "localhost/site/status"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   brokerDb:
     image: mariadb:10
