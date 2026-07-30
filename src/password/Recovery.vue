@@ -143,9 +143,7 @@ export default {
           return ''
         }
 
-        const normalizedLocalPart = localPart
-          .split('+')[0]
-          .replace(/\./g, '')
+        const normalizedLocalPart = localPart.split('+')[0].replace(/\./g, '')
 
         return `${normalizedLocalPart}@${domain}`.toLowerCase()
       }
@@ -154,7 +152,7 @@ export default {
       const normalizedPrimary = normalizeEmail(primaryEmail)
 
       return normalizedEmail !== '' && normalizedEmail === normalizedPrimary
-    }
+    },
   },
 }
 </script>
