@@ -132,16 +132,29 @@ export default {
       this.$refs.wizard.next()
     },
     isAlias(email, primaryEmail) {
-      const normalizeEmail = (email) => {
-        const [localPart, domain] = email.split('@')
-        const cleanedLocalPart = localPart.includes('+') ? localPart.split('+')[0] : localPart
-        const normalizedLocalPart = cleanedLocalPart.replace(/\./g, '')
+      if (typeof email !== 'string' || typeof primaryEmail !== 'string') {
+        return false
+      }
+
+      const normalizeEmail = (value) => {
+        const [localPart, domain] = value.split('@')
+
+        if (!localPart || !domain) {
+          return ''
+        }
+
+        const normalizedLocalPart = localPart
+          .split('+')[0]
+          .replace(/\./g, '')
 
         return `${normalizedLocalPart}@${domain}`.toLowerCase()
       }
 
-      return normalizeEmail(email) === normalizeEmail(primaryEmail)
-    },
+      const normalizedEmail = normalizeEmail(email)
+      const normalizedPrimary = normalizeEmail(primaryEmail)
+
+      return normalizedEmail !== '' && normalizedEmail === normalizedPrimary
+    }
   },
 }
 </script>
