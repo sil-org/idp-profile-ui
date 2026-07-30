@@ -27,7 +27,7 @@
 
       <v-col cols="auto" class="mr-4 align-self-center">
         {{ $t('profile.intro.username') }}
-        <strong class="text-body-2">{{ $user.idp_username }}</strong>
+        <strong class="text-body-2">{{ $user.email }}</strong>
       </v-col>
 
       <v-spacer></v-spacer>

@@ -22,7 +22,7 @@
 
         <v-col cols="11">
           {{ $t('profile.complete.username') }}
-          <strong class="text-body-2 pl-1">{{ $user.idp_username }}</strong>
+          <strong class="text-body-2 pl-1">{{ $user.email }}</strong>
         </v-col>
       </v-row>
 
