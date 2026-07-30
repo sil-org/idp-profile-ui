@@ -58,6 +58,7 @@
 <script>
 import { usePasswordStore } from './password'
 import ProfileWizard from '@/profile/ProfileWizard.vue'
+import eventBus from '@/eventBus'
 
 export default {
   name: 'PasswordConfirm',
@@ -103,7 +104,7 @@ export default {
         this.$router.push('/password/saved')
       } else {
         errors.forEach((error) => {
-          throw Error(error.errorMessages.join('\n'))
+          eventBus.emit('error', { message: error.errorMessages.join('\n') })
         })
       }
     },

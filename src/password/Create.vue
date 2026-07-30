@@ -96,6 +96,7 @@
 <script>
 import { usePasswordStore } from './password'
 import ProfileWizard from '@/profile/ProfileWizard.vue'
+import eventBus from '@/eventBus'
 import { zxcvbn, zxcvbnOptions } from '@zxcvbn-ts/core'
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common'
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en'
@@ -178,7 +179,7 @@ export default {
         }
       } else {
         errors.forEach((error) => {
-          throw Error(error.errorMessages.join('\n'))
+          eventBus.emit('error', { message: error.errorMessages.join('\n') })
         })
       }
     },
