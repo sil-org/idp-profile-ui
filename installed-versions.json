@@ -47,8 +47,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.16.1",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.16.1.tgz",
+      "version": "1.18.0",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.18.0.tgz",
       "overridden": false
     },
     "date-fns": {
@@ -62,8 +62,8 @@
       "overridden": false
     },
     "eslint-plugin-vue": {
-      "version": "9.33.0",
-      "resolved": "https://registry.npmjs.org/eslint-plugin-vue/-/eslint-plugin-vue-9.33.0.tgz",
+      "version": "10.10.0",
+      "resolved": "https://registry.npmjs.org/eslint-plugin-vue/-/eslint-plugin-vue-10.10.0.tgz",
       "overridden": false
     },
     "eslint-plugin-vuetify": {
@@ -72,8 +72,8 @@
       "overridden": false
     },
     "eslint": {
-      "version": "9.39.4",
-      "resolved": "https://registry.npmjs.org/eslint/-/eslint-9.39.4.tgz",
+      "version": "10.8.0",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.8.0.tgz",
       "overridden": false
     },
     "prettier": {
