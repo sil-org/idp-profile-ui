@@ -2,8 +2,8 @@
   "name": "idp-profile-ui",
   "dependencies": {
     "@eslint/js": {
-      "version": "9.39.4",
-      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.39.4.tgz",
+      "version": "9.39.5",
+      "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.39.5.tgz",
       "overridden": false
     },
     "@intlify/unplugin-vue-i18n": {
@@ -12,13 +12,13 @@
       "overridden": false
     },
     "@sentry/vite-plugin": {
-      "version": "5.3.0",
-      "resolved": "https://registry.npmjs.org/@sentry/vite-plugin/-/vite-plugin-5.3.0.tgz",
+      "version": "5.4.0",
+      "resolved": "https://registry.npmjs.org/@sentry/vite-plugin/-/vite-plugin-5.4.0.tgz",
       "overridden": false
     },
     "@sentry/vue": {
-      "version": "10.64.0",
-      "resolved": "https://registry.npmjs.org/@sentry/vue/-/vue-10.64.0.tgz",
+      "version": "10.69.0",
+      "resolved": "https://registry.npmjs.org/@sentry/vue/-/vue-10.69.0.tgz",
       "overridden": false
     },
     "@simplewebauthn/browser": {
@@ -47,8 +47,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.18.0",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.18.0.tgz",
+      "version": "1.19.0",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.19.0.tgz",
       "overridden": false
     },
     "date-fns": {
@@ -57,8 +57,8 @@
       "overridden": false
     },
     "eslint-plugin-prettier": {
-      "version": "5.5.5",
-      "resolved": "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.5.tgz",
+      "version": "5.5.6",
+      "resolved": "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.5.6.tgz",
       "overridden": false
     },
     "eslint-plugin-vue": {
@@ -77,8 +77,8 @@
       "overridden": false
     },
     "prettier": {
-      "version": "3.8.3",
-      "resolved": "https://registry.npmjs.org/prettier/-/prettier-3.8.3.tgz",
+      "version": "3.9.6",
+      "resolved": "https://registry.npmjs.org/prettier/-/prettier-3.9.6.tgz",
       "overridden": false
     },
     "rimraf": {
@@ -92,8 +92,8 @@
       "overridden": false
     },
     "sass": {
-      "version": "1.100.0",
-      "resolved": "https://registry.npmjs.org/sass/-/sass-1.100.0.tgz",
+      "version": "1.102.0",
+      "resolved": "https://registry.npmjs.org/sass/-/sass-1.102.0.tgz",
       "overridden": false
     },
     "unplugin-vue-components": {
@@ -127,13 +127,13 @@
       "overridden": false
     },
     "vue": {
-      "version": "3.5.34",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.34.tgz",
+      "version": "3.5.40",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.40.tgz",
       "overridden": false
     },
     "vuetify": {
-      "version": "3.12.6",
-      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.12.6.tgz",
+      "version": "3.13.0",
+      "resolved": "https://registry.npmjs.org/vuetify/-/vuetify-3.13.0.tgz",
       "overridden": false
     },
     "zxcvbn": {
