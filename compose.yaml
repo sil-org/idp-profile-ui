@@ -121,7 +121,7 @@ services:
     ports:
       - '8604:80'
     depends_on:
-      brokerDb:
+      broker-db:
         condition: service_healthy
     env_file:
       - ./.env.local
@@ -130,7 +130,7 @@ services:
       API_ACCESS_KEYS: 'local-testing-abc123'
       HIBP_CHECK_ON_LOGIN: 'false'
       MIGRATE_PW_FROM_LDAP: 'false'
-      MYSQL_HOST: 'brokerDb'
+      MYSQL_HOST: 'broker-db'
       MYSQL_DATABASE: 'broker'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
@@ -157,7 +157,7 @@ services:
       timeout: 5s
       retries: 3
 
-  brokerDb:
+  broker-db:
     image: mariadb:10
     ports:
       - '3306'
@@ -186,7 +186,7 @@ services:
     ports:
       - '8603:80'
     depends_on:
-      silAuthDb:
+      sil-auth-db:
         condition: service_healthy
       broker:
         condition: service_started
@@ -202,7 +202,7 @@ services:
       IDP_DOMAIN_NAME: 'idp.gtis.guru'
       MFA_SETUP_URL: 'https://example.org/mfa-setup'
       MFA_LEARN_MORE_URL: '//example.org/learn-more'
-      MYSQL_HOST: 'silAuthDb'
+      MYSQL_HOST: 'sil-auth-db'
       MYSQL_DATABASE: 'silauth'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'pass'
@@ -216,7 +216,7 @@ services:
       TRUSTED_URL_DOMAINS: 'profile.gtis.guru,idp.gtis.guru'
     command: ['bash', '-c', './run-idp.sh']
 
-  silAuthDb:
+  sil-auth-db:
     image: mariadb:10
     ports:
       - '3306'
