@@ -20,7 +20,7 @@ services:
     command: npm run serve
     # command: npm run serve:prod
     ports:
-      - '8000:8000'
+      - '8600:8600'
     depends_on:
       - api
 
@@ -28,7 +28,7 @@ services:
     image: ghcr.io/sil-org/idp-pw-api:10
     platform: linux/amd64
     ports:
-      - '8080:80'
+      - '8602:80'
     depends_on:
       profileDb:
         condition: service_healthy
@@ -109,7 +109,7 @@ services:
       FRONTEND1_DOMAIN: 'profile.gtis.guru'
       FRONTEND2_DOMAIN: 'profile-api.gtis.guru'
       FRONTEND3_DOMAIN: 'idp.gtis.guru'
-      BACKEND1_URL: 'http://ui:8000'
+      BACKEND1_URL: 'http://ui:8600'
       BACKEND2_URL: 'http://api:80'
       BACKEND3_URL: 'http://idp:80'
 
@@ -119,7 +119,7 @@ services:
     volumes:
       - ./development/m991231_235959_insert_test_users.php:/app/console/migrations/m991231_235959_insert_test_users.php
     ports:
-      - '8090:80'
+      - '8604:80'
     depends_on:
       brokerDb:
         condition: service_healthy
@@ -171,7 +171,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - '8091:80'
+      - '8605:80'
     environment:
       ADMINER_DEFAULT_SERVER: 'broker-db'
 
@@ -184,7 +184,7 @@ services:
       # - ./development/php-debugging.ini:/etc/php/7.0/apache2/php.ini
       - ./development/default-logo.png:/data/vendor/simplesamlphp/simplesamlphp/public/logo.png
     ports:
-      - '8088:80'
+      - '8603:80'
     depends_on:
       silAuthDb:
         condition: service_healthy
@@ -250,7 +250,7 @@ services:
     image: amazon/dynamodb-local:latest
     platform: linux/amd64
     ports:
-      - '8010:8000'
+      - '8606:8000'
     environment:
       AWS_ACCESS_KEY_ID: abc123
       AWS_SECRET_ACCESS_KEY: abc123

@@ -3,7 +3,7 @@ FROM node:22-alpine
 RUN mkdir -p /data
 WORKDIR /data
 
-EXPOSE 8000
+EXPOSE 8600
 
 # install dependencies
 COPY ./package.json /data
