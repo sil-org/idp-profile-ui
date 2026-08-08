@@ -6,6 +6,22 @@ x-db_healthcheck: &db_healthcheck
     timeout: 5s
     retries: 3
 
+x-mysql_env: &mysql_env
+  MYSQL_DATABASE: "db"
+  MYSQL_USER: "user"
+  MYSQL_PASSWORD: "pass"
+  MYSQL_ROOT_PASSWORD: "pass"
+
+x-mfa-api_env: &mfa-api-env
+  AWS_ENDPOINT: http://dynamo:8000
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: abc123
+  AWS_SECRET_ACCESS_KEY: abc123
+  AWS_DISABLE_SSL: 'true'
+  API_KEY_TABLE: ApiKey
+  TOTP_TABLE: Totp
+  WEBAUTHN_TABLE: WebAuthn
+
 services:
   node:
     image: node:22-alpine
@@ -110,9 +126,7 @@ services:
       HIBP_CHECK_ON_LOGIN: 'false'
       MIGRATE_PW_FROM_LDAP: 'false'
       MYSQL_HOST: 'broker-db'
-      MYSQL_DATABASE: 'broker'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+      <<: *mysql_env
       FROM_EMAIL: 'mail@example.com'
       EMAILER_CLASS: Sil\SilIdBroker\Behat\Context\fakes\FakeEmailer
       EMAIL_SIGNATURE: 'one red pill, please'
@@ -140,11 +154,7 @@ services:
     image: mariadb:10
     ports:
       - '3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'r00tp@ss!'
-      MYSQL_DATABASE: 'broker'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+    environment: *mysql_env
     <<: *db_healthcheck
 
   adminer:
@@ -182,9 +192,7 @@ services:
       MFA_SETUP_URL: 'https://example.org/mfa-setup'
       MFA_LEARN_MORE_URL: '//example.org/learn-more'
       MYSQL_HOST: 'sil-auth-db'
-      MYSQL_DATABASE: 'silauth'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+      <<: *mysql_env
       ID_BROKER_BASE_URI: 'http://broker'
       ID_BROKER_ACCESS_TOKEN: 'local-testing-abc123'
       ID_BROKER_ASSERT_VALID_IP: 'false'
@@ -199,11 +207,7 @@ services:
     image: mariadb:10
     ports:
       - '3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'r00tp@ss!'
-      MYSQL_DATABASE: 'silauth'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+    environment: *mysql_env
     <<: *db_healthcheck
 
   dynamorestart:
@@ -212,14 +216,7 @@ services:
       - 8080
     volumes:
       - ./dynamorestart/:/dynamo
-    environment:
-      AWS_ENDPOINT: dynamo:8000
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: abc123
-      AWS_SECRET_ACCESS_KEY: abc123
-      AWS_DISABLE_SSL: 'true'
-      API_KEY_TABLE: ApiKey
-      WEBAUTHN_TABLE: WebAuthn
+    environment: *mfa-api-env
     depends_on:
       - dynamo
     working_dir: /dynamo
@@ -242,15 +239,7 @@ services:
       - 8080
     volumes:
       - ./serverless-mfa-api/override:/src/override
-    environment:
-      AWS_ENDPOINT: http://dynamo:8000
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: abc123
-      AWS_SECRET_ACCESS_KEY: abc123
-      AWS_DISABLE_SSL: 'true'
-      API_KEY_TABLE: ApiKey
-      TOTP_TABLE: Totp
-      WEBAUTHN_TABLE: WebAuthn
+    environment: *mfa-api-env
     depends_on:
       - dynamo
       - dynamorestart
