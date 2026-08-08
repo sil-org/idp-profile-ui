@@ -140,7 +140,6 @@ services:
       APP_ENV: 'dev'
       API_ACCESS_KEYS: 'local-testing-abc123'
       HIBP_CHECK_ON_LOGIN: 'false'
-      MIGRATE_PW_FROM_LDAP: 'false'
       MYSQL_HOST: 'brokerDb'
       MYSQL_DATABASE: 'broker'
       MYSQL_USER: 'user'
