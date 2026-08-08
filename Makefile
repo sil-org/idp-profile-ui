@@ -1,6 +1,6 @@
 start: deps mfaapi
 	docker compose pull
-	docker compose up -d proxy brokerPhpmyadmin
+	docker compose up -d proxy adminer
 
 deps:
 	docker compose run --rm node npm install
@@ -17,7 +17,7 @@ logs:
 	docker compose exec idp cat /var/log/apache2/error.log
 
 phpmyadmin:
-	docker compose up -d brokerPhpmyadmin profilePhpmyadmin
+	docker compose up -d adminer
 
 mfaapi:
 	docker compose up -d mfaapi
