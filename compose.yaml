@@ -30,8 +30,6 @@ services:
     ports:
       - '8602:80'
     depends_on:
-      profileDb:
-        condition: service_healthy
       broker:
         condition: service_started
       zxcvbn:
@@ -42,11 +40,6 @@ services:
       - ./.env.local
     environment:
       APP_ENV: 'dev'
-      MYSQL_HOST: 'profileDb'
-      MYSQL_DATABASE: 'profile'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
-      EMAILER_CLASS: \tests\mock\emailer\FakeEmailer
       ALERTS_EMAIL_ENABLED: 'false'
       HELP_CENTER_URL: 'https://example.org/help-center'
       FROM_NAME: 'Tech support'
@@ -66,20 +59,6 @@ services:
       AUTH_SAML_entityId: 'profile-api.gtis.guru'
       AUTH_SAML_ssoUrl: 'http://idp.gtis.guru/saml2/idp/SSOService.php'
       AUTH_SAML_sloUrl: 'http://idp.gtis.guru/saml2/idp/SingleLogoutService.php'
-      PASSWORD_RULE_minLength: '10'
-      PASSWORD_RULE_maxLength: '255'
-      PASSWORD_RULE_minScore: '3'
-
-  profileDb:
-    image: mariadb:10
-    ports:
-      - '3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'r00tp@ss!'
-      MYSQL_DATABASE: 'profile'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
-    <<: *db_healthcheck
 
   zxcvbn:
     image: wcjr/zxcvbn-api
