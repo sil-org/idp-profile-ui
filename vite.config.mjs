@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       host: '0.0.0.0',
-      port: 8000,
+      port: 8600,
       hmr: {
         clientPort: 443,
         host: 'profile.gtis.guru',
