@@ -6,6 +6,22 @@ x-db_healthcheck: &db_healthcheck
     timeout: 5s
     retries: 3
 
+x-mysql_env: &mysql_env
+  MYSQL_DATABASE: "db"
+  MYSQL_USER: "user"
+  MYSQL_PASSWORD: "pass"
+  MYSQL_ROOT_PASSWORD: "pass"
+
+x-mfa-api_env: &mfa-api-env
+  AWS_ENDPOINT: http://dynamo:8000
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: abc123
+  AWS_SECRET_ACCESS_KEY: abc123
+  AWS_DISABLE_SSL: 'true'
+  API_KEY_TABLE: ApiKey
+  TOTP_TABLE: Totp
+  WEBAUTHN_TABLE: WebAuthn
+
 services:
   node:
     image: node:22-alpine
@@ -20,7 +36,7 @@ services:
     command: npm run serve
     # command: npm run serve:prod
     ports:
-      - '8000:8000'
+      - '8600:8600'
     depends_on:
       - api
 
@@ -28,10 +44,8 @@ services:
     image: ghcr.io/sil-org/idp-pw-api:10
     platform: linux/amd64
     ports:
-      - '8080:80'
+      - '8602:80'
     depends_on:
-      profileDb:
-        condition: service_healthy
       broker:
         condition: service_started
       zxcvbn:
@@ -42,11 +56,6 @@ services:
       - ./.env.local
     environment:
       APP_ENV: 'dev'
-      MYSQL_HOST: 'profileDb'
-      MYSQL_DATABASE: 'profile'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
-      EMAILER_CLASS: \tests\mock\emailer\FakeEmailer
       ALERTS_EMAIL_ENABLED: 'false'
       HELP_CENTER_URL: 'https://example.org/help-center'
       FROM_NAME: 'Tech support'
@@ -66,31 +75,6 @@ services:
       AUTH_SAML_entityId: 'profile-api.gtis.guru'
       AUTH_SAML_ssoUrl: 'http://idp.gtis.guru/saml2/idp/SSOService.php'
       AUTH_SAML_sloUrl: 'http://idp.gtis.guru/saml2/idp/SingleLogoutService.php'
-      PASSWORD_RULE_minLength: '10'
-      PASSWORD_RULE_maxLength: '255'
-      PASSWORD_RULE_minScore: '3'
-
-  profileDb:
-    image: mariadb:10
-    ports:
-      - '3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'r00tp@ss!'
-      MYSQL_DATABASE: 'profile'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
-    <<: *db_healthcheck
-
-  profilePhpmyadmin:
-    image: phpmyadmin:5
-    ports:
-      - '8081:80'
-    depends_on:
-      - profileDb
-    environment:
-      PMA_HOST: 'profileDb'
-      PMA_USER: 'user'
-      PMA_PASSWORD: 'pass'
 
   zxcvbn:
     image: wcjr/zxcvbn-api
@@ -120,7 +104,7 @@ services:
       FRONTEND1_DOMAIN: 'profile.gtis.guru'
       FRONTEND2_DOMAIN: 'profile-api.gtis.guru'
       FRONTEND3_DOMAIN: 'idp.gtis.guru'
-      BACKEND1_URL: 'http://ui:8000'
+      BACKEND1_URL: 'http://ui:8600'
       BACKEND2_URL: 'http://api:80'
       BACKEND3_URL: 'http://idp:80'
 
@@ -130,9 +114,9 @@ services:
     volumes:
       - ./development/m991231_235959_insert_test_users.php:/app/console/migrations/m991231_235959_insert_test_users.php
     ports:
-      - '8090:80'
+      - '8604:80'
     depends_on:
-      brokerDb:
+      broker-db:
         condition: service_healthy
     env_file:
       - ./.env.local
@@ -141,10 +125,8 @@ services:
       API_ACCESS_KEYS: 'local-testing-abc123'
       HIBP_CHECK_ON_LOGIN: 'false'
       MIGRATE_PW_FROM_LDAP: 'false'
-      MYSQL_HOST: 'brokerDb'
-      MYSQL_DATABASE: 'broker'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+      MYSQL_HOST: 'broker-db'
+      <<: *mysql_env
       FROM_EMAIL: 'mail@example.com'
       EMAILER_CLASS: Sil\SilIdBroker\Behat\Context\fakes\FakeEmailer
       EMAIL_SIGNATURE: 'one red pill, please'
@@ -168,27 +150,19 @@ services:
       timeout: 5s
       retries: 3
 
-  brokerDb:
+  broker-db:
     image: mariadb:10
     ports:
       - '3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'r00tp@ss!'
-      MYSQL_DATABASE: 'broker'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+    environment: *mysql_env
     <<: *db_healthcheck
 
-  brokerPhpmyadmin:
-    image: phpmyadmin:5
+  adminer:
+    image: adminer
     ports:
-      - '8091:80'
-    depends_on:
-      - brokerDb
+      - '8605:80'
     environment:
-      PMA_HOST: 'brokerDb'
-      PMA_USER: 'user'
-      PMA_PASSWORD: 'pass'
+      ADMINER_DEFAULT_SERVER: 'broker-db'
 
   idp:
     image: ghcr.io/sil-org/ssp-base:12
@@ -199,9 +173,9 @@ services:
       # - ./development/php-debugging.ini:/etc/php/7.0/apache2/php.ini
       - ./development/default-logo.png:/data/vendor/simplesamlphp/simplesamlphp/public/logo.png
     ports:
-      - '8088:80'
+      - '8603:80'
     depends_on:
-      silAuthDb:
+      sil-auth-db:
         condition: service_healthy
       broker:
         condition: service_started
@@ -217,10 +191,8 @@ services:
       IDP_DOMAIN_NAME: 'idp.gtis.guru'
       MFA_SETUP_URL: 'https://example.org/mfa-setup'
       MFA_LEARN_MORE_URL: '//example.org/learn-more'
-      MYSQL_HOST: 'silAuthDb'
-      MYSQL_DATABASE: 'silauth'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+      MYSQL_HOST: 'sil-auth-db'
+      <<: *mysql_env
       ID_BROKER_BASE_URI: 'http://broker'
       ID_BROKER_ACCESS_TOKEN: 'local-testing-abc123'
       ID_BROKER_ASSERT_VALID_IP: 'false'
@@ -231,15 +203,11 @@ services:
       TRUSTED_URL_DOMAINS: 'profile.gtis.guru,idp.gtis.guru'
     command: ['bash', '-c', './run-idp.sh']
 
-  silAuthDb:
+  sil-auth-db:
     image: mariadb:10
     ports:
       - '3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'r00tp@ss!'
-      MYSQL_DATABASE: 'silauth'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
+    environment: *mysql_env
     <<: *db_healthcheck
 
   dynamorestart:
@@ -248,14 +216,7 @@ services:
       - 8080
     volumes:
       - ./dynamorestart/:/dynamo
-    environment:
-      AWS_ENDPOINT: dynamo:8000
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: abc123
-      AWS_SECRET_ACCESS_KEY: abc123
-      AWS_DISABLE_SSL: 'true'
-      API_KEY_TABLE: ApiKey
-      WEBAUTHN_TABLE: WebAuthn
+    environment: *mfa-api-env
     depends_on:
       - dynamo
     working_dir: /dynamo
@@ -265,7 +226,7 @@ services:
     image: amazon/dynamodb-local:latest
     platform: linux/amd64
     ports:
-      - '8010:8000'
+      - '8606:8000'
     environment:
       AWS_ACCESS_KEY_ID: abc123
       AWS_SECRET_ACCESS_KEY: abc123
@@ -278,15 +239,7 @@ services:
       - 8080
     volumes:
       - ./serverless-mfa-api/override:/src/override
-    environment:
-      AWS_ENDPOINT: http://dynamo:8000
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: abc123
-      AWS_SECRET_ACCESS_KEY: abc123
-      AWS_DISABLE_SSL: 'true'
-      API_KEY_TABLE: ApiKey
-      TOTP_TABLE: Totp
-      WEBAUTHN_TABLE: WebAuthn
+    environment: *mfa-api-env
     depends_on:
       - dynamo
       - dynamorestart
