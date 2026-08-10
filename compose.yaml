@@ -124,8 +124,7 @@ services:
       APP_ENV: 'dev'
       API_ACCESS_KEYS: 'local-testing-abc123'
       HIBP_CHECK_ON_LOGIN: 'false'
-      MIGRATE_PW_FROM_LDAP: 'false'
-      MYSQL_HOST: 'broker-db'
+      MYSQL_HOST: 'brokerDb'
       <<: *mysql_env
       FROM_EMAIL: 'mail@example.com'
       EMAILER_CLASS: Sil\SilIdBroker\Behat\Context\fakes\FakeEmailer
