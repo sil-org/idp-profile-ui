@@ -124,7 +124,7 @@ services:
       APP_ENV: 'dev'
       API_ACCESS_KEYS: 'local-testing-abc123'
       HIBP_CHECK_ON_LOGIN: 'false'
-      MYSQL_HOST: 'brokerDb'
+      MYSQL_HOST: 'broker-db'
       <<: *mysql_env
       FROM_EMAIL: 'mail@example.com'
       EMAILER_CLASS: Sil\SilIdBroker\Behat\Context\fakes\FakeEmailer
@@ -159,7 +159,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - '8605:80'
+      - '8605:8080'
     environment:
       ADMINER_DEFAULT_SERVER: 'broker-db'
 
