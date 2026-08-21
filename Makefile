@@ -16,7 +16,7 @@ logs:
 	docker compose logs
 	docker compose exec idp cat /var/log/apache2/error.log
 
-phpmyadmin:
+adminer:
 	docker compose up -d adminer
 
 mfaapi:
