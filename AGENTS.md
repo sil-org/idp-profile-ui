@@ -70,7 +70,7 @@ src/
   assets/                 # static images
 api/                      # local API override files for docker stack
 development/              # local IdP/dev infra config files
-dynamorestart/            # separate PHP utility service for local stack
+dynamorestart/            # Bash + AWS CLI utility scripts to seed DynamoDB
 serverless-mfa-api/       # Dockerfile wrapper for MFA API service
 specs/technical/          # architecture/front-end/back-end/infrastructure notes
 ```
