@@ -1,4 +1,6 @@
-FROM composer:2
+FROM alpine:3.20
+
+RUN apk add --no-cache bash aws-cli
 
 WORKDIR /dynamo
 
@@ -8,12 +10,7 @@ ENV AWS_ACCESS_KEY_ID=abc123
 ENV AWS_SECRET_ACCESS_KEY=abc123
 ENV AWS_DISABLE_SSL="true"
 
-COPY DynamoRestart.php /dynamo/DynamoRestart.php
-COPY restart.php /dynamo/restart.php
-COPY composer.json /dynamo/composer.json
-COPY composer.lock /dynamo/composer.lock
-RUN composer install
+COPY ./ /dynamo
+RUN chmod +x /dynamo/*.sh
 
-EXPOSE 8080
-
-CMD ["php restart.php"]
+CMD ["bash", "/dynamo/restart.sh"]
