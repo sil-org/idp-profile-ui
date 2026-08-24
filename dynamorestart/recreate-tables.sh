@@ -11,7 +11,10 @@ wait_for_dynamodb
 
 echo 'Deleting old DynamoDB tables if they exist.'
 for table in "$WEBAUTHN_TABLE" "$TOTP_TABLE" "$API_KEY_TABLE"; do
-  aws_dynamodb delete-table --table-name "$table" >/dev/null 2>&1 || true
+  if aws_dynamodb describe-table --table-name "$table" >/dev/null 2>&1; then
+    aws_dynamodb delete-table --table-name "$table" >/dev/null
+    aws_dynamodb wait table-not-exists --table-name "$table"
+  fi
 done
 
 echo 'Creating DynamoDB tables.'
