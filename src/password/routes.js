@@ -1,5 +1,4 @@
 import Create from './Create.vue'
-import Confirm from './Confirm.vue'
 import Saved from './Saved.vue'
 import Recovery from './Recovery.vue'
 import VerifyRecoveryMethod from './VerifyRecoveryMethod.vue'
@@ -19,7 +18,7 @@ export default [
   },
   {
     path: '/password/confirm',
-    component: Confirm,
+    redirect: '/password/create',
   },
   {
     path: '/password/saved',

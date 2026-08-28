@@ -13,6 +13,7 @@
 
         <div class="d-flex">
           <BaseTextField
+            id="password"
             v-model="password"
             :type="passwordIsHidden ? 'password' : 'text'"
             :label="$t('password.create.pwInput')"
@@ -21,6 +22,7 @@
             validate-on-input
             autofocus
             name="password"
+            autocomplete="new-password"
             @keyup.enter="blur"
           />
 
@@ -28,8 +30,8 @@
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"
-                class="align-center"
-                variant="text ml-1"
+                class="align-center ml-1"
+                variant="text"
                 icon
                 tabindex="-1"
                 @click="passwordIsHidden = !passwordIsHidden"
@@ -41,11 +43,42 @@
           </v-tooltip>
         </div>
 
+        <div class="d-flex mt-4">
+          <BaseTextField
+            id="confirm-password"
+            v-model="confirmPassword"
+            :type="confirmPasswordIsHidden ? 'password' : 'text'"
+            :label="$t('password.confirm.header')"
+            :rules="confirmRules"
+            validate-on-input
+            name="confirm_password"
+            autocomplete="new-password"
+            @keyup.enter="blur"
+          />
+
+          <v-tooltip location="top">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                class="align-center ml-1"
+                variant="text"
+                icon
+                tabindex="-1"
+                @click="confirmPasswordIsHidden = !confirmPasswordIsHidden"
+              >
+                <v-icon>{{ confirmPasswordIsHidden ? 'mdi-eye' : 'mdi-eye-off' }}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ confirmPasswordIsHidden ? 'Show' : 'Hide' }} password</span>
+          </v-tooltip>
+        </div>
+
         <v-alert
           v-show="!!(showFeedback && password && strength)"
           :type="strength.feedback.warning ? 'error' : 'info'"
           :icon="strength.feedback.warning ? 'mdi-alert' : 'mdi-information'"
           variant="outlined"
+          class="mt-4"
         >
           <header class="text-body-2">
             {{ strength.feedback.warning }}
@@ -68,7 +101,7 @@
           </footer>
         </v-alert>
 
-        <v-alert v-show="!!isGood" type="success" variant="outlined">
+        <v-alert v-show="!!isGood" type="success" variant="outlined" class="mt-4">
           <header class="text-body-2">
             {{ $t('password.create.goodPassword') }}
           </header>
@@ -109,7 +142,9 @@ export default {
   data() {
     return {
       wizardKey: 0,
+      confirmPassword: '',
       passwordIsHidden: true,
+      confirmPasswordIsHidden: true,
       rules: [
         (v) => required(v, this),
         (v) => minLength(v, this),
@@ -117,6 +152,7 @@ export default {
         (v) => strong(v, this),
         (v) => requireAlphaAndNumeric(v, this),
       ],
+      confirmRules: [(v) => required(v, this), (v) => v === this.password || this.$t('password.confirm.noMatch')],
       errors: [],
     }
   },
@@ -136,12 +172,13 @@ export default {
       return zxcvbn(this.password)
     },
     showFeedback: (vm) => vm.strength.feedback.warning || vm.strength.feedback.suggestions.length,
-    isGood: (vm) => vm.password && vm.$refs.form && vm.$refs.form.validate(),
+    isGood: (vm) => vm.password && vm.confirmPassword && vm.$refs.form && vm.$refs.form.validate(),
   },
   watch: {
     password: function () {
       // This is used to refresh the form, instead of leaving it frozen after a re-used password
       if (this.password == '') {
+        this.confirmPassword = ''
         this.forceRerender()
       }
 
@@ -164,11 +201,18 @@ export default {
             password: this.password,
           })
 
-          this.$router.push('/password/confirm')
+          await this.$API.put('password', {
+            password: this.password,
+          })
+
+          this.$refs.wizard.completed()
+
+          this.$router.push('/password/saved')
         } catch (e) {
           this.errors.push(this.$t('password.create.noGood'))
 
           this.password = ''
+          this.confirmPassword = ''
 
           if (e.code === 1554734183) {
             window.gtag('event', 'pwned', {
@@ -193,15 +237,20 @@ export default {
 }
 
 const required = (v, vm) => !!v || vm.$t('password.create.required')
-const minLength = (v, vm) =>
-  v.length >= vm.$idpConfig.passwordRules.minLength ||
-  vm.$t('password.create.tooShort', [vm.$idpConfig.passwordRules.minLength])
-const maxLength = (v, vm) =>
-  v.length < vm.$idpConfig.passwordRules.maxLength ||
-  vm.$t('password.create.tooLong', [vm.$idpConfig.passwordRules.maxLength])
-const strong = (v, vm) => vm.strength.score >= vm.$idpConfig.passwordRules.minScore || vm.$t('password.create.tooWeak')
+const minLength = (v, vm) => {
+  const min = vm.$idpConfig?.passwordRules?.minLength ?? 10
+  return v.length >= min || vm.$t('password.create.tooShort', [min])
+}
+const maxLength = (v, vm) => {
+  const max = vm.$idpConfig?.passwordRules?.maxLength ?? 255
+  return v.length < max || vm.$t('password.create.tooLong', [max])
+}
+const strong = (v, vm) => {
+  const minScore = vm.$idpConfig?.passwordRules?.minScore ?? 3
+  return vm.strength.score >= minScore || vm.$t('password.create.tooWeak')
+}
 const requireAlphaAndNumeric = (v, vm) =>
-  !vm.$idpConfig.passwordRules.requireAlphaAndNumeric ||
+  !vm.$idpConfig?.passwordRules?.requireAlphaAndNumeric ||
   (/\p{L}/u.test(vm.password) && /\p{N}/u.test(vm.password)) ||
   vm.$t('password.create.requireAlphaAndNumeric')
 const options = {
