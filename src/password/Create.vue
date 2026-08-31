@@ -172,7 +172,7 @@ export default {
       return zxcvbn(this.password)
     },
     showFeedback: (vm) => vm.strength.feedback.warning || vm.strength.feedback.suggestions.length,
-    isGood: (vm) => vm.password && vm.confirmPassword && vm.$refs.form && vm.$refs.form.validate(),
+    isGood: (vm) => vm.password && vm.confirmPassword && vm.$refs.form?.validate?.(),
   },
   watch: {
     password: function () {
