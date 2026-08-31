@@ -51,7 +51,6 @@
             :label="$t('password.confirm.header')"
             :rules="confirmRules"
             validate-on-input
-            name="confirm_password"
             autocomplete="new-password"
             @keyup.enter="blur"
           />

@@ -148,7 +148,6 @@
     },
     "confirm": {
       "header": "Confirmer votre nouveau mot de passe",
-      "explanation": "Juste pour vous assurer que votre nouveau mot de passe est correct, veuillez le saisir une fois de plus.",
       "pwInput": "Votre nouveau mot de passe",
       "noMatch": "Ce mot de passe ne correspond pas à votre précédent"
     },

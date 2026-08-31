@@ -17,10 +17,6 @@ export default [
     redirect: '/password/create',
   },
   {
-    path: '/password/confirm',
-    redirect: '/password/create',
-  },
-  {
     path: '/password/saved',
     component: Saved,
     meta: {
