@@ -148,7 +148,6 @@
     },
     "confirm": {
       "header": "Confirm your new password",
-      "explanation": "Just to make sure we both have your new password right, please enter it one more time.",
       "pwInput": "Your new password",
       "noMatch": "That password does not match your previous one"
     },

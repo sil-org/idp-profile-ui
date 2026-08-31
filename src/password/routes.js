@@ -1,5 +1,4 @@
 import Create from './Create.vue'
-import Confirm from './Confirm.vue'
 import Saved from './Saved.vue'
 import Recovery from './Recovery.vue'
 import VerifyRecoveryMethod from './VerifyRecoveryMethod.vue'
@@ -16,10 +15,6 @@ export default [
   {
     path: '/change', // old pw-ui urls might still be bookmarked.
     redirect: '/password/create',
-  },
-  {
-    path: '/password/confirm',
-    component: Confirm,
   },
   {
     path: '/password/saved',
