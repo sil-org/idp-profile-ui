@@ -29,7 +29,9 @@
     <v-col cols="auto">
       <v-tooltip v-if="!readOnly" location="right">
         <template #activator="{ props }">
-          <v-icon v-bind="props" color="info" size="small" @click="edit"> mdi-pencil </v-icon>
+          <v-icon v-bind="props" color="info" size="small" :aria-label="$t('profile.index.rename')" @click="edit">
+            mdi-pencil
+          </v-icon>
         </template>
 
         {{ $t('profile.index.rename') }}
@@ -79,7 +81,7 @@ export default {
       this.editing = false
     },
     async save() {
-      if (this.newLabel.length > 65) {
+      if (this.newLabel.length > 64) {
         eventBus.emit('error', { message: this.$t('global.mfaLabelTooLong') })
         return
       }

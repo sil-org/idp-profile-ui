@@ -33,5 +33,11 @@ export default {
       this.$nextTick(this.$refs.tf.focus)
     }
   },
+  methods: {
+    // lets a parent re-run this field's rules when something they depend on changes
+    validate() {
+      return this.$refs.tf.validate()
+    },
+  },
 }
 </script>

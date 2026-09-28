@@ -5,7 +5,7 @@
         {{ $t('password.create.header', [$idpConfig.idpName]) }}
       </template>
 
-      <v-form ref="form" @submit.prevent="save">
+      <v-form ref="form" v-model="formIsValid" @submit.prevent="save">
         <p>
           {{ $t('password.create.username', [$idpConfig.idpName]) }}
           <strong class="text-body-2">{{ $user.idp_username }}</strong>
@@ -46,6 +46,7 @@
         <div class="d-flex mt-4">
           <BaseTextField
             id="confirm-password"
+            ref="confirmField"
             v-model="confirmPassword"
             :type="confirmPasswordIsHidden ? 'password' : 'text'"
             :label="$t('password.confirm.header')"
@@ -118,7 +119,7 @@
 
       <v-spacer />
 
-      <v-btn color="primary" variant="outlined" @click.once="save">
+      <v-btn color="primary" variant="outlined" :loading="saving" @click="save">
         {{ $t('global.button.continue') }}
       </v-btn>
     </template>
@@ -141,6 +142,8 @@ export default {
   data() {
     return {
       wizardKey: 0,
+      formIsValid: null, // null until every field has been validated
+      saving: false,
       confirmPassword: '',
       passwordIsHidden: true,
       confirmPasswordIsHidden: true,
@@ -171,18 +174,23 @@ export default {
       return zxcvbn(this.password)
     },
     showFeedback: (vm) => vm.strength.feedback.warning || vm.strength.feedback.suggestions.length,
-    isGood: (vm) => vm.password && vm.confirmPassword && vm.$refs.form?.validate?.(),
+    // The confirmation is compared directly because its rule is only re-run when the confirmation itself changes.
+    isGood: (vm) => !!vm.password && vm.password === vm.confirmPassword && vm.formIsValid === true,
   },
   watch: {
-    password: function () {
+    password() {
       // This is used to refresh the form, instead of leaving it frozen after a re-used password
-      if (this.password == '') {
+      if (this.password === '') {
         this.confirmPassword = ''
         this.forceRerender()
-      }
-
-      if (this.isGood) {
+      } else {
+        // a new attempt after the API rejected one
         this.errors.splice(0)
+
+        // the confirmation's "does not match" rule depends on this field too
+        if (this.confirmPassword) {
+          this.$refs.confirmField?.validate()
+        }
       }
     },
   },
@@ -192,9 +200,14 @@ export default {
       this.wizardKey += 1
     },
     async save() {
+      if (this.saving) {
+        return // ignore double clicks while a save is in flight
+      }
+
       const { valid, errors } = await this.$refs.form.validate()
 
       if (valid) {
+        this.saving = true
         try {
           await this.$API.put('password/assess', {
             password: this.password,
@@ -219,6 +232,8 @@ export default {
               event_label: 'Password Compromise Detected',
             })
           }
+        } finally {
+          this.saving = false
         }
       } else {
         errors.forEach((error) => {

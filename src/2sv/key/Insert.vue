@@ -96,7 +96,7 @@ export default {
         this.snackBarMessage = this.$t('2sv.key.insert.label')
         this.snackbarIsOpen = true
         return
-      } else if (attemptedKeyLabel.length > 65) {
+      } else if (attemptedKeyLabel.length > 64) {
         this.snackBarMessage = this.$t('global.mfaLabelTooLong')
         this.snackbarIsOpen = true
         return

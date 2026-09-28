@@ -25,6 +25,8 @@
                 color="error"
                 size="small"
                 class="pl-4"
+                :aria-label="$t('global.button.remove')"
+                :aria-disabled="alternates.length == 1"
                 @click.once="remove(method.id)"
               >
                 mdi-delete
@@ -55,7 +57,14 @@
           autofocus
         />
 
-        <v-btn :disabled="!newEmail" size="small" color="success" class="ma-2-mod ml-4" @click="add">
+        <v-btn
+          :disabled="!newEmail"
+          size="small"
+          color="success"
+          class="ma-2-mod ml-4"
+          :aria-label="$t('global.button.add')"
+          @click="add"
+        >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-form>
