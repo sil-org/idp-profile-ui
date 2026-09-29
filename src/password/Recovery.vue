@@ -19,18 +19,19 @@
           {{ method.value }}
           <v-tooltip :disabled="alternates.length > 1" location="right">
             <template #activator="{ props }">
-              <v-icon
+              <v-btn
                 v-bind="props"
                 :disabled="alternates.length == 1"
                 color="error"
                 size="small"
+                icon
+                variant="text"
                 class="pl-4"
                 :aria-label="$t('global.button.remove')"
-                :aria-disabled="alternates.length == 1"
                 @click.once="remove(method.id)"
               >
-                mdi-delete
-              </v-icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             </template>
 
             {{ $t('password.recovery.dontRemoveLastOne') }}

@@ -11,11 +11,31 @@
     </v-col>
 
     <v-col>
-      <v-icon color="success" size="small" class="pl-2" @click="save"> mdi-check </v-icon>
+      <v-btn
+        color="success"
+        size="small"
+        icon
+        variant="text"
+        class="pl-2"
+        :aria-label="$t('global.button.save')"
+        @click.prevent="save"
+      >
+        <v-icon>mdi-check</v-icon>
+      </v-btn>
     </v-col>
 
     <v-col>
-      <v-icon color="error" size="small" class="pl-1" @click="cancel"> mdi-close </v-icon>
+      <v-btn
+        color="error"
+        size="small"
+        icon
+        variant="text"
+        class="pl-1"
+        :aria-label="$t('global.button.cancel')"
+        @click.prevent="cancel"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
     </v-col>
   </v-row>
 
@@ -29,9 +49,17 @@
     <v-col cols="auto">
       <v-tooltip v-if="!readOnly" location="right">
         <template #activator="{ props }">
-          <v-icon v-bind="props" color="info" size="small" :aria-label="$t('profile.index.rename')" @click="edit">
-            mdi-pencil
-          </v-icon>
+          <v-btn
+            v-bind="props"
+            color="info"
+            size="small"
+            icon
+            variant="text"
+            :aria-label="$t('profile.index.rename')"
+            @click.prevent="edit"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
         </template>
 
         {{ $t('profile.index.rename') }}
