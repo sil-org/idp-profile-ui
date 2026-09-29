@@ -13,10 +13,13 @@
     "serve:prod": "vite preview",
     "build": "echo UI_VERSION=${UI_VERSION} >> .env; vite build",
     "clean": "rimraf dist",
-    "format": "prettier --write \"src/**/*.{js,vue}\"",
-    "format:check": "prettier --check \"src/**/*.{js,vue}\"",
-    "fix": "eslint --fix \"src/**/*.{js,vue}\"",
-    "lint": "eslint \"src/**/*.{js,vue}\""
+    "format": "prettier --write \"src/**/*.{js,vue}\" \"e2e/**/*.js\" playwright.config.js",
+    "format:check": "prettier --check \"src/**/*.{js,vue}\" \"e2e/**/*.js\" playwright.config.js",
+    "fix": "eslint --fix \"src/**/*.{js,vue}\" \"e2e/**/*.js\" playwright.config.js",
+    "lint": "eslint \"src/**/*.{js,vue}\" \"e2e/**/*.js\" playwright.config.js",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:update": "playwright test --grep @visual --update-snapshots"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^6.0.3",
@@ -34,6 +37,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@fontsource/roboto": "^5.3.0",
+    "@mdi/font": "4.9.95",
+    "@playwright/test": "1.63.0",
     "@sentry/vite-plugin": "^5.3.0",
     "@sentry/vue": "^10.64.0",
     "@vitejs/plugin-vue": "^5.2.1",
