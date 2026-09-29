@@ -10,7 +10,9 @@
       "change": "바꾸기",
       "remove": "제거",
       "add": "추가",
-      "close": "닫기"
+      "close": "닫기",
+      "save": "저장",
+      "cancel": "취소"
     },
     "learnMore": "자세히 알아보기",
     "areYouSure": "계속 진행하시겠습니까?",

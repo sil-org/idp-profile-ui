@@ -10,7 +10,9 @@
       "change": "Changer",
       "remove": "Supprimer",
       "add": "Ajouter",
-      "close": "Fermer"
+      "close": "Fermer",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
     },
     "learnMore": "en savoir plus",
     "areYouSure": "Êtes-vous certain ?",
