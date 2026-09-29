@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <h3 class="text-h5">{{ $t('profile.index.passwordCard.title') }}</h3>
       <v-spacer />
-      <v-icon v-if="isExpiringSoon()" size="x-large" color="warning"> mid-alert </v-icon>
+      <v-icon v-if="isExpiringSoon()" size="x-large" color="warning"> mdi-alert </v-icon>
     </v-card-title>
 
     <v-card-text class="flex-grow-1">
