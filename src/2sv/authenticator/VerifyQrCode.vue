@@ -68,25 +68,25 @@ export default {
         return // ignore double clicks while a verification is in flight
       }
 
-      const { valid, errors } = await this.$refs.form.validate()
+      this.verifying = true
+      try {
+        const { valid, errors } = await this.$refs.form.validate()
 
-      if (valid) {
-        this.verifying = true
-        try {
+        if (valid) {
           await verify(this.$route.query.id, this.code.trim())
 
           this.$router.push('/2sv/authenticator/code-verified')
-        } catch (error) {
-          if (error.status == 400) {
-            this.errors.splice(0, this.errors.length, this.$t('2sv.authenticator.verifyQrCode.hint'))
-          }
-        } finally {
-          this.verifying = false
+        } else {
+          errors.forEach((error) => {
+            eventBus.emit('error', { message: error.errorMessages.join('\n') })
+          })
         }
-      } else {
-        errors.forEach((error) => {
-          eventBus.emit('error', { message: error.errorMessages.join('\n') })
-        })
+      } catch (error) {
+        if (error.status == 400) {
+          this.errors.splice(0, this.errors.length, this.$t('2sv.authenticator.verifyQrCode.hint'))
+        }
+      } finally {
+        this.verifying = false
       }
     },
     blur(event) {

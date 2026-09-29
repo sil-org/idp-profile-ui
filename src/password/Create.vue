@@ -204,11 +204,11 @@ export default {
         return // ignore double clicks while a save is in flight
       }
 
-      const { valid, errors } = await this.$refs.form.validate()
+      this.saving = true
+      try {
+        const { valid, errors } = await this.$refs.form.validate()
 
-      if (valid) {
-        this.saving = true
-        try {
+        if (valid) {
           await this.$API.put('password/assess', {
             password: this.password,
           })
@@ -220,25 +220,25 @@ export default {
           this.$refs.wizard.completed()
 
           this.$router.push('/password/saved')
-        } catch (e) {
-          this.errors.push(this.$t('password.create.noGood'))
-
-          this.password = ''
-          this.confirmPassword = ''
-
-          if (e.code === 1554734183) {
-            window.gtag('event', 'pwned', {
-              event_category: 'password',
-              event_label: 'Password Compromise Detected',
-            })
-          }
-        } finally {
-          this.saving = false
+        } else {
+          errors.forEach((error) => {
+            eventBus.emit('error', { message: error.errorMessages.join('\n') })
+          })
         }
-      } else {
-        errors.forEach((error) => {
-          eventBus.emit('error', { message: error.errorMessages.join('\n') })
-        })
+      } catch (e) {
+        this.errors.push(this.$t('password.create.noGood'))
+
+        this.password = ''
+        this.confirmPassword = ''
+
+        if (e.code === 1554734183) {
+          window.gtag('event', 'pwned', {
+            event_category: 'password',
+            event_label: 'Password Compromise Detected',
+          })
+        }
+      } finally {
+        this.saving = false
       }
     },
     blur(event) {
