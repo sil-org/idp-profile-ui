@@ -4,7 +4,7 @@
       <v-text-field
         v-model="newLabel"
         autofocus
-        :rules="[(v) => v.length < 65 || $t('global.mfaLabelTooLong')]"
+        :rules="labelRules"
         @keyup.enter="save"
         @focus="$event.target.select()"
       />
@@ -40,6 +40,7 @@
 
 <script>
 import { change, changeWebauthn } from '@/global/mfa'
+import { MFA_LABEL_MAX_LENGTH } from '@/consts'
 import eventBus from '@/eventBus'
 
 export default {
@@ -66,9 +67,10 @@ export default {
     },
   },
   emits: ['new-label'],
-  data: () => ({
+  data: (vm) => ({
     editing: false,
     newLabel: '',
+    labelRules: [(v) => v.length <= MFA_LABEL_MAX_LENGTH || vm.$t('global.mfaLabelTooLong')],
   }),
   methods: {
     edit() {
@@ -79,7 +81,7 @@ export default {
       this.editing = false
     },
     async save() {
-      if (this.newLabel.length > 65) {
+      if (this.newLabel.length > MFA_LABEL_MAX_LENGTH) {
         eventBus.emit('error', { message: this.$t('global.mfaLabelTooLong') })
         return
       }
