@@ -175,7 +175,7 @@ export default {
     },
     showFeedback: (vm) => vm.strength.feedback.warning || vm.strength.feedback.suggestions.length,
     // The confirmation is compared directly because its rule is only re-run when the confirmation itself changes.
-    isGood: (vm) => !!vm.password && vm.password === vm.confirmPassword && vm.formIsValid === true,
+    isGood: (vm) => !!vm.password && vm.strength.score >= 3,
   },
   watch: {
     password() {
