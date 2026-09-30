@@ -55,7 +55,7 @@
       "pwRecoverStep": "비밀번호 찾기",
       "authenticator": "인증 앱",
       "backupCodes": "백업 코드",
-      "securityKey": "보안 키",
+      "securityKeyStep": "보안 키",
       "completeStep": "완료"
     },
     "complete": {
