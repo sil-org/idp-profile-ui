@@ -17,12 +17,13 @@
 
         <li v-for="method in alternates" :key="method.id" class="d-flex align-center pb-2 pl-4">
           {{ method.value }}
-          <v-tooltip :disabled="alternates.length > 1" location="right">
+          <v-tooltip :disabled="remaining > 1" location="right">
             <template #activator="{ props }">
               <!-- margin rather than padding, which an icon button applies inside its fixed square -->
               <v-btn
                 v-bind="props"
-                :aria-disabled="isLastAlternate"
+                :aria-disabled="!canRemove(method.id)"
+                :loading="isRemoving(method.id)"
                 color="error"
                 size="small"
                 density="comfortable"
@@ -112,11 +113,14 @@ export default {
     newEmail: '',
     system: recoveryMethods.system,
     alternates: recoveryMethods.alternates,
+    removing: [], // ids whose delete is still in flight
   }),
   computed: {
     unsaved: (vm) => vm.newEmail != '',
     primary: (vm) => vm.system.find((m) => m.type == 'primary') || {},
-    isLastAlternate: (vm) => vm.alternates.length === 1,
+    // an in-flight removal has not left the array yet, so discount it when working out
+    // whether one more would take away the last method
+    remaining: (vm) => vm.alternates.length - vm.removing.length,
   },
   methods: {
     async add() {
@@ -133,14 +137,28 @@ export default {
         })
       }
     },
+    isRemoving(id) {
+      return this.removing.includes(id)
+    },
+    canRemove(id) {
+      return !this.isRemoving(id) && this.remaining > 1
+    },
     // aria-disabled leaves the button focusable and hoverable so its tooltip can say why
     // removal is blocked, which means the click still arrives and has to be turned away here
-    removeAlternate(id) {
-      if (this.isLastAlternate) {
+    async removeAlternate(id) {
+      if (!this.canRemove(id)) {
         return
       }
 
-      return remove(id)
+      this.removing.push(id)
+      try {
+        await remove(id)
+      } finally {
+        const i = this.removing.indexOf(id)
+        if (i > -1) {
+          this.removing.splice(i, 1)
+        }
+      }
     },
     skip() {
       this.$refs.wizard.skipped()
