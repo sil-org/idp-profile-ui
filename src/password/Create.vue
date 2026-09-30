@@ -46,6 +46,7 @@
         <div class="d-flex mt-4">
           <BaseTextField
             id="confirm-password"
+            ref="confirmField"
             v-model="confirmPassword"
             :type="confirmPasswordIsHidden ? 'password' : 'text'"
             :label="$t('password.confirm.header')"
@@ -118,7 +119,7 @@
 
       <v-spacer />
 
-      <v-btn color="primary" variant="outlined" @click.once="save">
+      <v-btn color="primary" variant="outlined" :loading="saving" @click="save">
         {{ $t('global.button.continue') }}
       </v-btn>
     </template>
@@ -141,6 +142,7 @@ export default {
   data() {
     return {
       wizardKey: 0,
+      saving: false,
       confirmPassword: '',
       passwordIsHidden: true,
       confirmPasswordIsHidden: true,
@@ -171,18 +173,22 @@ export default {
       return zxcvbn(this.password)
     },
     showFeedback: (vm) => vm.strength.feedback.warning || vm.strength.feedback.suggestions.length,
-    isGood: (vm) => vm.password && vm.confirmPassword && vm.$refs.form?.validate?.(),
+    isGood: (vm) => !!vm.password && vm.rules.every((rule) => rule(vm.password) === true),
   },
   watch: {
-    password: function () {
+    password() {
       // This is used to refresh the form, instead of leaving it frozen after a re-used password
-      if (this.password == '') {
+      if (this.password === '') {
         this.confirmPassword = ''
         this.forceRerender()
-      }
-
-      if (this.isGood) {
+      } else {
+        // a new attempt after the API rejected one
         this.errors.splice(0)
+
+        // the confirmation's "does not match" rule depends on this field too
+        if (this.confirmPassword) {
+          this.$refs.confirmField?.validate()
+        }
       }
     },
   },
@@ -192,10 +198,15 @@ export default {
       this.wizardKey += 1
     },
     async save() {
-      const { valid, errors } = await this.$refs.form.validate()
+      if (this.saving) {
+        return // ignore double clicks while a save is in flight
+      }
 
-      if (valid) {
-        try {
+      this.saving = true
+      try {
+        const { valid, errors } = await this.$refs.form.validate()
+
+        if (valid) {
           await this.$API.put('password/assess', {
             password: this.password,
           })
@@ -207,23 +218,25 @@ export default {
           this.$refs.wizard.completed()
 
           this.$router.push('/password/saved')
-        } catch (e) {
-          this.errors.push(this.$t('password.create.noGood'))
-
-          this.password = ''
-          this.confirmPassword = ''
-
-          if (e.code === 1554734183) {
-            window.gtag('event', 'pwned', {
-              event_category: 'password',
-              event_label: 'Password Compromise Detected',
-            })
-          }
+        } else {
+          errors.forEach((error) => {
+            eventBus.emit('error', { message: error.errorMessages.join('\n') })
+          })
         }
-      } else {
-        errors.forEach((error) => {
-          eventBus.emit('error', { message: error.errorMessages.join('\n') })
-        })
+      } catch (e) {
+        this.errors.push(this.$t('password.create.noGood'))
+
+        this.password = ''
+        this.confirmPassword = ''
+
+        if (e.code === 1554734183) {
+          window.gtag('event', 'pwned', {
+            event_category: 'password',
+            event_label: 'Password Compromise Detected',
+          })
+        }
+      } finally {
+        this.saving = false
       }
     },
     blur(event) {
