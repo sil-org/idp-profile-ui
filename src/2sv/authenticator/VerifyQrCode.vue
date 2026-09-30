@@ -69,11 +69,12 @@ export default {
       }
 
       this.verifying = true
+      const submittedCode = this.code.trim()
       try {
         const { valid, errors } = await this.$refs.form.validate()
 
         if (valid) {
-          await verify(this.$route.query.id, this.code.trim())
+          await verify(this.$route.query.id, submittedCode)
 
           this.$router.push('/2sv/authenticator/code-verified')
         } else {
@@ -83,7 +84,9 @@ export default {
         }
       } catch (error) {
         if (error.status == 400) {
-          this.errors.splice(0, this.errors.length, this.$t('2sv.authenticator.verifyQrCode.hint'))
+          if (this.code.trim() === submittedCode) {
+            this.errors.splice(0, this.errors.length, this.$t('2sv.authenticator.verifyQrCode.hint'))
+          }
         } else {
           // without this the button just stops loading and the user gets no explanation
           eventBus.emit('error', error)
