@@ -32,7 +32,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn color="primary" variant="outlined" @click.once="verify">
+      <v-btn color="primary" variant="outlined" :loading="verifying" @click="verify">
         {{ $t('global.button.verify') }}
       </v-btn>
     </ButtonBar>
@@ -55,25 +55,44 @@ export default {
       (v) => /^\d{3} ?\d{3}$/.test(v) || vm.$t('2sv.authenticator.verifyQrCode.invalidCode'),
     ],
     errors: [],
+    verifying: false,
   }),
+  watch: {
+    code() {
+      this.errors.splice(0) // a new code replaces the hint from a rejected one
+    },
+  },
   methods: {
     async verify() {
-      const { valid, errors } = await this.$refs.form.validate()
+      if (this.verifying) {
+        return // ignore double clicks while a verification is in flight
+      }
 
-      if (valid) {
-        try {
-          await verify(this.$route.query.id, this.code.trim())
+      this.verifying = true
+      const submittedCode = this.code.trim()
+      try {
+        const { valid, errors } = await this.$refs.form.validate()
+
+        if (valid) {
+          await verify(this.$route.query.id, submittedCode)
 
           this.$router.push('/2sv/authenticator/code-verified')
-        } catch (error) {
-          if (error.status == 400) {
-            this.errors.push(this.$t('2sv.authenticator.verifyQrCode.hint'))
-          }
+        } else {
+          errors.forEach((error) => {
+            eventBus.emit('error', { message: error.errorMessages.join('\n') })
+          })
         }
-      } else {
-        errors.forEach((error) => {
-          eventBus.emit('error', { message: error.errorMessages.join('\n') })
-        })
+      } catch (error) {
+        if (error.status == 400) {
+          if (this.code.trim() === submittedCode) {
+            this.errors.splice(0, this.errors.length, this.$t('2sv.authenticator.verifyQrCode.hint'))
+          }
+        } else {
+          // without this the button just stops loading and the user gets no explanation
+          eventBus.emit('error', error)
+        }
+      } finally {
+        this.verifying = false
       }
     },
     blur(event) {
