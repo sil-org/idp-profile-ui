@@ -16,14 +16,7 @@
       <!-- TODO: Add translations for this label -->
       <label v-if="showLabelInput">
         {{ $t('2sv.key.insert.label') }}
-        <v-text-field
-          v-model="input"
-          required
-          variant="outlined"
-          autofocus
-          :rules="[(v) => v.length < 65 || $t('global.mfaLabelTooLong')]"
-          @keyup="onKeyup"
-        />
+        <v-text-field v-model="input" required variant="outlined" autofocus :rules="labelRules" @keyup="onKeyup" />
       </label>
     </BasePage>
 
@@ -62,6 +55,7 @@
 import ProfileWizard from '@/profile/ProfileWizard.vue'
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { newKeyName, mfa } from '@/global/mfa'
+import { MFA_LABEL_MAX_LENGTH } from '@/consts'
 import usbKey from '@/assets/insert-usb-security-key.png'
 
 export default {
@@ -69,34 +63,35 @@ export default {
   components: {
     ProfileWizard,
   },
-  data: () => ({
+  data: (vm) => ({
     isSupported: browserSupportsWebAuthn(),
     showLabelInput: false,
     input: '',
-    newKeyName,
+    labelRules: [(v) => v.length <= MFA_LABEL_MAX_LENGTH || vm.$t('global.mfaLabelTooLong')],
     snackbarIsOpen: false,
     snackBarMessage: '',
-    usbKey: usbKey,
+    newKeyName,
+    usbKey,
   }),
   methods: {
-    onOk: function () {
+    onOk() {
       this.showLabelInput = true
     },
-    isDuplicateKeyLabel: function (keys, attemptedKeyLabel) {
-      return keys.data?.find((key) => key.label == attemptedKeyLabel)
+    isDuplicateKeyLabel(keys, attemptedKeyLabel) {
+      return keys.data?.find((key) => key.label === attemptedKeyLabel)
     },
-    onKeyup: function (event) {
-      if (event.key == 'Enter') {
+    onKeyup(event) {
+      if (event.key === 'Enter') {
         this.onContinue()
       }
     },
-    onContinue: function () {
+    onContinue() {
       const attemptedKeyLabel = this.input.trim()
       if (!attemptedKeyLabel) {
         this.snackBarMessage = this.$t('2sv.key.insert.label')
         this.snackbarIsOpen = true
         return
-      } else if (attemptedKeyLabel.length > 65) {
+      } else if (attemptedKeyLabel.length > MFA_LABEL_MAX_LENGTH) {
         this.snackBarMessage = this.$t('global.mfaLabelTooLong')
         this.snackbarIsOpen = true
         return
