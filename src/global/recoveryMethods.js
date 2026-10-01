@@ -31,8 +31,10 @@ function clear() {
 export const remove = async (id) => {
   await api.delete(`method/${id}`)
 
-  const i = recoveryMethods.alternates.findIndex((m) => m.id == id)
-  recoveryMethods.alternates.splice(i, 1)
+  const i = recoveryMethods.alternates.findIndex((m) => m.id === id)
+  if (i > -1) {
+    recoveryMethods.alternates.splice(i, 1)
+  }
 }
 
 export const verify = async (id, verificationCode = '') => {
