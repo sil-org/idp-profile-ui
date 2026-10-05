@@ -1,6 +1,7 @@
 <template>
   <v-row v-if="editing" no-gutters align="center">
-    <v-col cols="9">
+    <!-- the field flexes and the buttons size to their content, so a wider control cannot wrap the row -->
+    <v-col>
       <v-text-field
         v-model="newLabel"
         autofocus
@@ -10,12 +11,29 @@
       />
     </v-col>
 
-    <v-col>
-      <v-icon color="success" size="small" class="pl-2" @click="save"> mdi-check </v-icon>
+    <v-col cols="auto">
+      <v-btn
+        color="success"
+        size="small"
+        density="comfortable"
+        variant="text"
+        icon="mdi-check"
+        class="ml-1"
+        :aria-label="$t('global.button.save')"
+        @click="save"
+      />
     </v-col>
 
-    <v-col>
-      <v-icon color="error" size="small" class="pl-1" @click="cancel"> mdi-close </v-icon>
+    <v-col cols="auto">
+      <v-btn
+        color="error"
+        size="small"
+        density="comfortable"
+        variant="text"
+        icon="mdi-close"
+        :aria-label="$t('global.button.cancel')"
+        @click="cancel"
+      />
     </v-col>
   </v-row>
 
@@ -29,7 +47,16 @@
     <v-col cols="auto">
       <v-tooltip v-if="!readOnly" location="right">
         <template #activator="{ props }">
-          <v-icon v-bind="props" color="info" size="small" @click="edit"> mdi-pencil </v-icon>
+          <v-btn
+            v-bind="props"
+            color="info"
+            size="small"
+            density="comfortable"
+            variant="text"
+            icon="mdi-pencil"
+            :aria-label="$t('profile.index.rename')"
+            @click="edit"
+          />
         </template>
 
         {{ $t('profile.index.rename') }}

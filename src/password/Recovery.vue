@@ -15,20 +15,24 @@
       <ul>
         <li class="text-subtitle-1 text-grey py-2">{{ $t('password.recovery.personalHeader') }}</li>
 
-        <li v-for="method in alternates" :key="method.id" class="d-flex pb-2 pl-4">
+        <li v-for="method in alternates" :key="method.id" class="d-flex align-center pb-2 pl-4">
           {{ method.value }}
-          <v-tooltip :disabled="alternates.length > 1" location="right">
+          <v-tooltip :disabled="remaining > 1" location="right">
             <template #activator="{ props }">
-              <v-icon
+              <!-- margin rather than padding, which an icon button applies inside its fixed square -->
+              <v-btn
                 v-bind="props"
-                :disabled="alternates.length == 1"
+                :aria-disabled="!canRemove(method.id)"
+                :loading="isRemoving(method.id)"
                 color="error"
                 size="small"
-                class="pl-4"
-                @click.once="remove(method.id)"
-              >
-                mdi-delete
-              </v-icon>
+                density="comfortable"
+                variant="text"
+                icon="mdi-delete"
+                class="ml-2 flex-shrink-0"
+                :aria-label="$t('global.button.remove')"
+                @click="removeAlternate(method.id)"
+              />
             </template>
 
             {{ $t('password.recovery.dontRemoveLastOne') }}
@@ -55,7 +59,14 @@
           autofocus
         />
 
-        <v-btn :disabled="!newEmail" size="small" color="success" class="ma-2-mod ml-4" @click="add">
+        <v-btn
+          :disabled="!newEmail"
+          size="small"
+          color="success"
+          class="ma-2-mod ml-4 flex-shrink-0"
+          :aria-label="$t('global.button.add')"
+          @click="add"
+        >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-form>
@@ -102,10 +113,14 @@ export default {
     newEmail: '',
     system: recoveryMethods.system,
     alternates: recoveryMethods.alternates,
+    removing: [], // ids whose delete is still in flight
   }),
   computed: {
     unsaved: (vm) => vm.newEmail != '',
     primary: (vm) => vm.system.find((m) => m.type == 'primary') || {},
+    // an in-flight removal has not left the array yet, so discount it when working out
+    // whether one more would take away the last method
+    remaining: (vm) => vm.alternates.length - vm.removing.length,
   },
   methods: {
     async add() {
@@ -122,7 +137,29 @@ export default {
         })
       }
     },
-    remove,
+    isRemoving(id) {
+      return this.removing.includes(id)
+    },
+    canRemove(id) {
+      return !this.isRemoving(id) && this.remaining > 1
+    },
+    // aria-disabled leaves the button focusable and hoverable so its tooltip can say why
+    // removal is blocked, which means the click still arrives and has to be turned away here
+    async removeAlternate(id) {
+      if (!this.canRemove(id)) {
+        return
+      }
+
+      this.removing.push(id)
+      try {
+        await remove(id)
+      } finally {
+        const i = this.removing.indexOf(id)
+        if (i > -1) {
+          this.removing.splice(i, 1)
+        }
+      }
+    },
     skip() {
       this.$refs.wizard.skipped()
       this.$refs.wizard.next()
@@ -160,6 +197,13 @@ export default {
 <style scoped>
 li {
   list-style-type: none;
+}
+
+/* matches vuetify's own .v-btn--disabled opacity; we can't use the disabled prop because it
+   also sets pointer-events: none, which would suppress the tooltip explaining the block */
+.v-btn[aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.26;
 }
 
 /* couldn't get input and button vertically aligned using flex alone */
