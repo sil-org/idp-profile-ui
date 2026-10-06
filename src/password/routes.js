@@ -84,7 +84,7 @@ export default [
   },
   {
     path: '/reset/:id/verify/:code', // old pw-ui urls might still be bookmarked.
-    redirect: '/password/reset/:id/verify/:code',
+    redirect: (to) => `/password/reset/${to.params.id}/verify/${to.params.code}`,
   },
   {
     path: '/password/reset/complete',
