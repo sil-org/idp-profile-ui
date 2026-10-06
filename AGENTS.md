@@ -30,10 +30,13 @@ npm run format        # prettier format fix
 ```bash
 # end-to-end tests (Playwright, Chromium, fake API; no docker stack needed)
 npx playwright install chromium        # once
-npm run test:e2e                       # full suite
+npm run test:e2e                       # full suite (functional only on macOS/Windows)
 npx playwright test e2e/auth.spec.js   # single file
 npm run test:e2e:ui                    # interactive runner
-make e2e                               # full suite in Docker, same image as CI
+
+# screenshot tests only run on Linux, so use Docker locally:
+make e2e                               # functional + screenshots, same image as CI
+make e2e-update                        # regenerate screenshot baselines after an intended UI change
 ```
 
 CI (`.github/workflows/test.yml`) runs:
@@ -43,7 +46,7 @@ npm ci
 npm run format:check
 npm run lint
 npm run build
-npx playwright test   # separate job in mcr.microsoft.com/playwright
+npx playwright test   # separate job in mcr.microsoft.com/playwright, includes screenshots
 ```
 
 ## Code style conventions
@@ -71,7 +74,7 @@ src/
   help/                   # HelpButton
   locales/                # translation JSON files
   assets/                 # static images
-e2e/                      # Playwright tests and fake API (mocks/)
+e2e/                      # Playwright tests, fake API (mocks/) and screenshot baselines
 api/                      # local API override files for docker stack
 development/              # local IdP/dev infra config files
 dynamorestart/            # Bash + AWS CLI utility scripts to seed DynamoDB
@@ -91,6 +94,8 @@ specs/technical/          # architecture/front-end/back-end/infrastructure notes
 - Find elements the way users do: `getByRole`, `getByLabel`, `getByText`, and the `action(page, name)` helper for
   anything clickable (Vuetify renders some buttons as links). Do not select Vuetify classes (`.v-btn` etc.) so the
   suite survives a UI framework change. Give icon-only controls an `aria-label` rather than selecting icon classes.
+- Screenshot tests are tagged `@visual` and only run on Linux (CI or `make e2e`). Baselines live in
+  `e2e/__screenshots__/`; update them with `make e2e-update` and review the PNG diffs in the PR.
 - The WebAuthn flow uses Chromium's virtual authenticator (see `e2e/2sv/security-key.spec.js`).
 - When bumping `@playwright/test`, also update the image tag in `.github/workflows/test.yml` and the `Makefile`.
 
