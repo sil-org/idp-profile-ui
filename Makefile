@@ -35,3 +35,12 @@ lint:
 
 build:
 	docker compose build
+
+# End-to-end tests in the Playwright image, so results match CI. The anonymous volume keeps the container's
+# Linux node_modules separate from the host's.
+.PHONY: e2e
+PLAYWRIGHT_IMAGE = mcr.microsoft.com/playwright:v1.63.0-noble
+PLAYWRIGHT_RUN = docker run --rm --ipc=host -v "$(CURDIR)":/work -v /work/node_modules -w /work $(PLAYWRIGHT_IMAGE)
+
+e2e:
+	$(PLAYWRIGHT_RUN) sh -c "npm ci && npx playwright test"
