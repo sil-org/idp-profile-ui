@@ -30,7 +30,7 @@ npm run format        # prettier format fix
 ```bash
 # end-to-end tests (Playwright, Chromium, fake API; no docker stack needed)
 npx playwright install chromium        # once
-npm run test:e2e                       # full suite (functional only on macOS/Windows)
+npm run test:e2e                       # runs on any OS; screenshot (@visual) tests are skipped except on Linux
 npx playwright test e2e/auth.spec.js   # single file
 npm run test:e2e:ui                    # interactive runner
 
@@ -46,7 +46,7 @@ npm ci
 npm run format:check
 npm run lint
 npm run build
-npx playwright test   # separate job in mcr.microsoft.com/playwright, includes screenshots
+npm run test:e2e      # separate job in mcr.microsoft.com/playwright, includes screenshots
 ```
 
 ## Code style conventions
