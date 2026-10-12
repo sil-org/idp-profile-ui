@@ -43,7 +43,7 @@ PLAYWRIGHT_IMAGE = mcr.microsoft.com/playwright:v1.63.0-noble
 PLAYWRIGHT_RUN = docker run --rm --ipc=host -v "$(CURDIR)":/work -v /work/node_modules -w /work $(PLAYWRIGHT_IMAGE)
 
 e2e:
-	$(PLAYWRIGHT_RUN) sh -c "npm ci && npx playwright test"
+	$(PLAYWRIGHT_RUN) sh -c "npm ci && npm run test:e2e"
 
 e2e-update:
-	$(PLAYWRIGHT_RUN) sh -c "npm ci && npx playwright test --grep @visual --update-snapshots"
+	$(PLAYWRIGHT_RUN) sh -c "npm ci && npm run test:e2e:update"
