@@ -86,3 +86,18 @@ export { expect }
  */
 export const action = (page, name, { exact = true } = {}) =>
   page.getByRole('button', { name, exact }).or(page.getByRole('link', { name, exact }))
+
+/** Waits for API calls and web fonts to finish so screenshots are stable. */
+export async function settle(page) {
+  await page.waitForLoadState('networkidle')
+  await page.evaluate(() => document.fonts.ready)
+}
+
+/** Full-page screenshot comparison. Embedded videos are masked since their content is external. */
+export async function snapshot(page, name) {
+  await settle(page)
+  await expect(page).toHaveScreenshot(`${name}.png`, {
+    fullPage: true,
+    mask: [page.locator('iframe')],
+  })
+}

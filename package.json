@@ -18,7 +18,8 @@
     "fix": "eslint --fix \"src/**/*.{js,vue}\" \"e2e/**/*.js\" playwright.config.js",
     "lint": "eslint \"src/**/*.{js,vue}\" \"e2e/**/*.js\" playwright.config.js",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:update": "playwright test --grep @visual --update-snapshots"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^6.0.3",
