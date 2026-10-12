@@ -66,6 +66,26 @@ human-readable diffs after updating npm dependencies).
 2. Run `make dist`
 3. Run `make`
 
+## End-to-end tests
+
+The [Playwright](https://playwright.dev) tests in `e2e/` run Chromium against a production build of the UI with a fake
+API (`e2e/mocks`), so they don't need the full local stack or a network connection.
+
+Run them in the same Playwright Docker image that CI uses:
+
+```bash
+make e2e
+```
+
+Or run them with Node directly, after `npm install`:
+
+```bash
+npx playwright install chromium        # once, downloads the browser
+npm run test:e2e                       # whole suite
+npx playwright test e2e/auth.spec.js   # a single file
+npm run test:e2e:ui                    # interactive runner
+```
+
 # Build for deployment
 
 ## Step 1 – Environment variables
