@@ -28,10 +28,12 @@ npm run format        # prettier format fix
 ```
 
 ```bash
-# tests
-# No frontend test runner is configured in package.json (no test script, no Jest/Vitest/Playwright/Cypress config).
-# Full suite: N/A
-# Single test file: N/A
+# end-to-end tests (Playwright, Chromium, fake API; no docker stack needed)
+npx playwright install chromium        # once
+npm run test:e2e                       # full suite
+npx playwright test e2e/auth.spec.js   # single file
+npm run test:e2e:ui                    # interactive runner
+make e2e                               # full suite in Docker, same image as CI
 ```
 
 CI (`.github/workflows/test.yml`) runs:
@@ -41,6 +43,7 @@ npm ci
 npm run format:check
 npm run lint
 npm run build
+npx playwright test   # separate job in mcr.microsoft.com/playwright
 ```
 
 ## Code style conventions
@@ -68,6 +71,7 @@ src/
   help/                   # HelpButton
   locales/                # translation JSON files
   assets/                 # static images
+e2e/                      # Playwright tests and fake API (mocks/)
 api/                      # local API override files for docker stack
 development/              # local IdP/dev infra config files
 dynamorestart/            # Bash + AWS CLI utility scripts to seed DynamoDB
@@ -77,9 +81,18 @@ specs/technical/          # architecture/front-end/back-end/infrastructure notes
 
 ## Testing guidelines
 
-- Frontend automated tests are currently **not set up**; use lint + format check + build as quality gate.
-- Keep changes modular and verify impacted route flows manually in dev server/full stack when behavior changes.
-- If adding tests, align with feature folders (co-locate near `src/<feature>/`) and document the new test command in `package.json` and this file.
+- Playwright tests live in `e2e/<feature>/` (mirroring `src/<feature>/`); config is `playwright.config.js`.
+- Tests run against a production build (`vite build --mode e2e`, served by `vite preview`). `.env.e2e` points the API at
+  `/api` on the same origin, where `e2e/mocks/api.js` (`MockApi`) answers every endpoint from in-memory state. Data
+  builders are in `e2e/mocks/data.js`. Use `api.use(state)`, `api.state`, `api.fail(method, path, error)` and
+  `api.callsTo(method, path)` in tests.
+- `e2e/fixtures.js` starts the clock at `NOW` (never freeze it: `@click.once` stops working), uses the UTC time zone and en-US, serves fonts/icons from node_modules,
+  stubs reCAPTCHA and answers all other external requests with empty responses. Tests must not depend on the network.
+- Find elements the way users do: `getByRole`, `getByLabel`, `getByText`, and the `action(page, name)` helper for
+  anything clickable (Vuetify renders some buttons as links). Do not select Vuetify classes (`.v-btn` etc.) so the
+  suite survives a UI framework change. Give icon-only controls an `aria-label` rather than selecting icon classes.
+- The WebAuthn flow uses Chromium's virtual authenticator (see `e2e/2sv/security-key.spec.js`).
+- When bumping `@playwright/test`, also update the image tag in `.github/workflows/test.yml` and the `Makefile`.
 
 ## PR/commit conventions (discoverable)
 
@@ -102,4 +115,3 @@ specs/technical/          # architecture/front-end/back-end/infrastructure notes
 
 - Mixed component scripting styles (Options API, Composition API, and mixed-in-one-file patterns).
 - `specs/technical/*.md` contains some placeholder/open-question content; treat those files as directional, not authoritative implementation rules.
-- No canonical frontend test framework is currently defined.

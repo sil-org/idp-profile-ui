@@ -6,9 +6,24 @@
       "resolved": "https://registry.npmjs.org/@eslint/js/-/js-9.39.5.tgz",
       "overridden": false
     },
+    "@fontsource/roboto": {
+      "version": "5.3.0",
+      "resolved": "https://registry.npmjs.org/@fontsource/roboto/-/roboto-5.3.0.tgz",
+      "overridden": false
+    },
     "@intlify/unplugin-vue-i18n": {
       "version": "6.0.8",
       "resolved": "https://registry.npmjs.org/@intlify/unplugin-vue-i18n/-/unplugin-vue-i18n-6.0.8.tgz",
+      "overridden": false
+    },
+    "@mdi/font": {
+      "version": "4.9.95",
+      "resolved": "https://registry.npmjs.org/@mdi/font/-/font-4.9.95.tgz",
+      "overridden": false
+    },
+    "@playwright/test": {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/@playwright/test/-/test-1.63.0.tgz",
       "overridden": false
     },
     "@sentry/vite-plugin": {
@@ -47,8 +62,8 @@
       "overridden": false
     },
     "axios": {
-      "version": "1.19.0",
-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.19.0.tgz",
+      "version": "1.20.0",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.20.0.tgz",
       "overridden": false
     },
     "date-fns": {

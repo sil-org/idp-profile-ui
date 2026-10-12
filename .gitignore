@@ -24,3 +24,9 @@ npm-debug.log*
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Playwright
+dist-e2e
+test-results/
+playwright-report/
+blob-report/

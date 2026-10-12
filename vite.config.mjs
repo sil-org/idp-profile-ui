@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => {
         org: 'itse',
         project: env.VITE_PROJECT_NAME,
         authToken: env.SENTRY_AUTH_TOKEN,
+        disable: mode === 'e2e', // never upload releases/sourcemaps for Playwright builds
       }),
     ],
     server: {
