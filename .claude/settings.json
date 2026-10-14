@@ -1,0 +1,20 @@
+{
+  "sandbox": {
+    "filesystem": {
+      "allowRead": ["."],
+      "denyRead": [
+        "./.env",
+        "./.env.local",
+        "./.env.sentry-build-plugin"
+      ]
+    }
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./.env.*.local)",
+      "Read(./.env.sentry-build-plugin)"
+    ]
+  }
+}
