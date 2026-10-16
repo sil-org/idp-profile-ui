@@ -1,33 +1,47 @@
+import { reactive } from 'vue'
 import { recoveryMethods, retrieve as retrieveMethods } from '@/global/recoveryMethods'
 import { mfa as mfaStore, retrieve as retrieveMfa } from '@/global/mfa'
 import user from '@/plugins/user'
 
-const store = {
+const store = reactive({
   steps: [],
-}
+})
 
 const minVerified = 3
+let initPromise = null
 
 export default {
   steps: store.steps,
   async init() {
-    if (user.auth_type === 'login') {
-      await Promise.all([retrieveMethods(), retrieveMfa()])
+    if (initPromise) {
+      return initPromise
     }
 
-    // Retain all steps but mark relevant ones
-    allSteps.forEach((step, index) => {
-      const isRelevant = step.isRelevant(user, recoveryMethods.alternates, mfaStore)
-      const isNotDuplicate = !store.steps.some((s) => s.nameKey === step.nameKey)
-      if (isNotDuplicate) {
-        store.steps.push({
-          ...step,
-          id: index + 1,
-          state: '',
-          skip: !isRelevant,
+    initPromise = (async () => {
+      try {
+        if (user.auth_type === 'login') {
+          await Promise.all([retrieveMethods(), retrieveMfa()])
+        }
+
+        // Retain all steps but mark relevant ones
+        allSteps.forEach((step, index) => {
+          const isRelevant = step.isRelevant(user, recoveryMethods.alternates, mfaStore)
+          const isNotDuplicate = !store.steps.some((s) => s.nameKey === step.nameKey)
+          if (isNotDuplicate) {
+            store.steps.push({
+              ...step,
+              id: index + 1,
+              state: '',
+              skip: !isRelevant,
+            })
+          }
         })
+      } finally {
+        initPromise = null
       }
-    })
+    })()
+
+    return initPromise
   },
   forPath(path) {
     return this.steps.find((step) => step.paths.includes(path))

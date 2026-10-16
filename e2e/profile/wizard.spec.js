@@ -57,4 +57,17 @@ test.describe('profile wizard', () => {
     await action(page, 'See my profile').click()
     await expect(page).toHaveURL(/#\/profile$/)
   })
+  test('loading step completion pages directly initializes steps without error', async ({ page }) => {
+    await page.goto('/#/password/reset/complete')
+    await expect(page.getByText('Your password has been changed.')).toBeVisible()
+    await expect(page.getByRole('dialog')).toBeHidden()
+
+    await page.goto('/#/2sv/authenticator/code-verified')
+    await expect(page.getByText('That was the correct code')).toBeVisible()
+    await expect(page.getByRole('dialog')).toBeHidden()
+
+    await page.goto('/#/2sv/usb-security-key/confirmed')
+    await expect(page.getByText('Your USB security key is now confirmed')).toBeVisible()
+    await expect(page.getByRole('dialog')).toBeHidden()
+  })
 })
