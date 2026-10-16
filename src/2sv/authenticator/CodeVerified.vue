@@ -29,8 +29,11 @@ export default {
     ProfileWizard,
   },
   async created() {
+    await steps.init()
     const step = steps.forPath(this.$route.path)
-    step.state = 'complete'
+    if (step) {
+      step.state = 'complete'
+    }
   },
 }
 </script>
