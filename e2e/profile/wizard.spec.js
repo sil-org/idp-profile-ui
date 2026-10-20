@@ -51,6 +51,7 @@ test.describe('profile wizard', () => {
 
     await expect(page).toHaveURL(/#\/profile\/complete$/)
     await expect(page.getByText("That's it!")).toBeVisible()
+    await expect(page.getByText('testy@example.org')).toBeVisible()
     await expect(page.getByText('You do not have any 2-Step Verification options established.')).toBeVisible()
     await expect(page.getByText('You do not have any alternate means of recovering your password')).toBeVisible()
 
