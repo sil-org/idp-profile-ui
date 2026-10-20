@@ -1,5 +1,5 @@
 import { test, expect, action } from './fixtures.js'
-import { anonymousState } from './mocks/data.js'
+import { anonymousState, newUserState } from './mocks/data.js'
 
 // Runs only in the `subpath` project, against a build with VITE_BASE_PATH=/profile/ (see playwright.config.js).
 // Navigate with relative URLs like '#/profile': a leading '/' would resolve to the domain root, not the app.
@@ -12,6 +12,19 @@ test.describe('served from a subdirectory', () => {
     await expect(page).toHaveTitle('My Acme Identity Profile')
     await expect(page.getByText('Testy Testerson')).toBeVisible()
     await expect(page.getByRole('link', { name: 'Logo' })).toHaveAttribute('href', '/profile/')
+  })
+
+  test('in-app navigation stays under the subdirectory', async ({ page, api }) => {
+    api.use(newUserState())
+    await page.goto('#/2sv/intro')
+
+    await action(page, 'Continue').click()
+    await expect(page.getByText('Do you have an authenticator app?')).toBeVisible()
+    await expect(page).toHaveURL(`${APP_URL}#/2sv/authenticator/intro`)
+
+    await page.goBack()
+    await expect(page.getByText('What is 2-Step Verification?')).toBeVisible()
+    await expect(page).toHaveURL(`${APP_URL}#/2sv/intro`)
   })
 
   test('log out returns to the app root', async ({ page }) => {
