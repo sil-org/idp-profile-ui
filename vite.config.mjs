@@ -8,8 +8,12 @@ import vuetify from 'vite-plugin-vuetify'
 export default defineConfig(({ mode }) => {
   // https://stackoverflow.com/questions/66389043/how-can-i-use-vite-env-variables-in-vite-config-js
   const env = loadEnv(mode, process.cwd(), '')
-  console.log(`Version: ${env.UI_VERSION}, Project: ${env.VITE_PROJECT_NAME}`)
+  // Path the app is served from, e.g. /profile/ for https://profile.example.org/profile/. Defaults to the domain root.
+  const basePath = (env.VITE_BASE_PATH || '').replace(/^\/+|\/+$/g, '')
+  const base = basePath ? `/${basePath}/` : '/'
+  console.log(`Version: ${env.UI_VERSION}, Project: ${env.VITE_PROJECT_NAME}, Base: ${base}`)
   return {
+    base,
     plugins: [
       vue({
         template: {
