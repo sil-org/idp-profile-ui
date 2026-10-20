@@ -40,7 +40,21 @@ An IdP infrastructure will be running locally and is required for authentication
 
 #### New user (has no password yet)
 
-Enter app with a special "invitation" link, e.g., <https://profile.gtis.guru/#/profile/intro?invite=2b2d424e-8cb0-49c7-8c0b-7f6603INVITE>. If needed, this user's username is **b**
+Enter app with a special "invitation" link, e.g., <https://profile.gtis.guru/#/profile/intro?invite=2b2d424e-8cb0-49c7-8c0b-7f6603INVITE> or <https://profile.gtis.guru/profile/#/profile/intro?invite=2b2d424e-8cb0-49c7-8c0b-7f6603INVITE> if using /profile as the VITE_BASE_PATH. If needed, this user's username is **b**
+
+### Running from a subdirectory
+
+To test the app at a path such as <https://profile.gtis.guru/profile/> (see `VITE_BASE_PATH` in
+[Build for deployment](#build-for-deployment)):
+
+1. Add `VITE_BASE_PATH=/profile/` to `.env.local`.
+2. Add the path to the UI URLs in `compose.yaml` (don't commit these changes):
+   - `api`: `UI_URL: 'https://profile.gtis.guru/profile/#'`. The API only returns to URLs that start with `UI_URL`, so
+     without this, login and logout land on the root.
+   - `broker`: `PASSWORD_PROFILE_URL: 'https://profile.gtis.guru/profile/'`
+   - `idp`: `PASSWORD_CHANGE_URL`, `PASSWORD_FORGOT_URL` and `PROFILE_URL`, e.g.,
+     `PROFILE_URL: 'https://profile.gtis.guru/profile/#'`
+3. Run `make`, then open <https://profile.gtis.guru/profile/>.
 
 ## Run the UI as a Docker container
 
@@ -90,7 +104,11 @@ npm run test:e2e:ui                    # interactive runner
 
 ## Step 1 – Environment variables
 
-Copy `.env.dist` to `env.local` and update the relevant values, e.g., a UI deployment would only require the UI-related variables be present and populated.
+Copy `.env.dist` to `.env.local` and update the relevant values, e.g., a UI deployment would only require the UI-related variables be present and populated.
+
+By default the app is built to be served from the root of its domain (e.g., `https://profile.example.org/`). To serve it
+from a subdirectory instead, set `VITE_BASE_PATH`, e.g., `VITE_BASE_PATH=/profile/` for `https://login.example.org/profile/`.
+The API's `UI_URL` and the IdP's links to the UI (`PROFILE_URL` and the password URLs) must then include that path too.
 
 ## Step 2 – Customizations
 
@@ -106,3 +124,8 @@ The following files should be replaced before running the build.
 1. `npm install` will install dependencies
 2. `npm run build` will produce the production-ready app in the project root's `dist` folder.
 3. The contents of `dist` can then be deployed.
+
+If `VITE_BASE_PATH` is set, the build still writes to the top of `dist`, so the deployment has to serve those files under
+that path. With Cloudflare Workers static assets, for example, copy them into a matching folder of the assets directory
+(`<assets>/profile/index.html`, `<assets>/profile/assets/...`), but keep `_headers` at the top (`<assets>/_headers`):
+Cloudflare only reads it there.

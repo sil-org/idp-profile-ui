@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar color="primary">
-      <a href="/"><img :src="logo" alt="Logo" /></a>
+      <a :href="homeUrl"><img :src="logo" alt="Logo" /></a>
 
       <v-spacer />
 
@@ -75,6 +75,8 @@ const message = ref('')
 const isModalOpen = ref(false)
 
 const { xs } = useDisplay()
+
+const homeUrl = import.meta.env.BASE_URL
 
 const route = useRoute()
 
