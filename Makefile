@@ -9,6 +9,10 @@ depsupdate:
 	docker compose run --rm node npm update
 	docker compose run --rm node npm ls --package-lock-only --json > installed-versions.json
 
+auditfix:
+	docker compose run --rm node npm audit fix
+	docker compose run --rm node npm ls --package-lock-only --json > installed-versions.json
+
 dist: deps
 	docker compose run --rm node npm run build
 
